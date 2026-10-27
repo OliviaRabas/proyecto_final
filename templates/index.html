@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Enlace corregido a url_for -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+    <title><h1>GUESS DE FLAG </h1></title>
+</head>
+<body>
+{% extends "base.html" %}
+
+{% block contenido %}
+<h1>🚩 Guess the Flag</h1>
+
+<div class="opcion" data-href="/aprender">Aprender</div>
+<div class="opcion" data-href="/jugar">Jugar</div>
+<div class="opcion" data-href="/como-jugar">¿Cómo jugar?</div>
+
+<!-- Etiquetas que le recuerdan al jugador qué hace cada botón -->
+<div class="etiqueta e-ai">▲ Anterior</div>
+<div class="etiqueta e-ad">✔ Aceptar</div>
+<div class="etiqueta e-bi">▼ Siguiente</div>
+<div class="etiqueta e-bd">↩ Volver</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const opciones = document.querySelectorAll('.opcion');
+    let actual = 0;
+
+    function resaltar() {
+        opciones.forEach((op, i) => {
+            op.classList.toggle('seleccionada', i === actual);
+        });
+    }
+
+    alEntrada((evento) => {
+        if (evento === "arriba_izquierda") actual = (actual - 1 + opciones.length) % opciones.length;
+        if (evento === "abajo_izquierda")  actual = (actual + 1) % opciones.length;
+        if (evento === "arriba_derecha")   window.location = opciones[actual].dataset.href;
+        if (evento === "abajo_derecha")    window.history.back();
+        resaltar();
+    });
+
+    resaltar();
+</script>
+{% endblock %}
+       
+        
+   
+</body>
+</html>
