@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reglas - Guess the Flag</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/reglas.css') }}">
+</head>
+<body>
+    <header>
+        <h1>📋 Reglas</h1>
+    </header>
+
+    <main>
+        <ol>
+            <li>Elegí un continente, o <b>Global</b> para jugar con todos.</li>
+            <li>Va a aparecer una <b>bandera</b> y cuatro nombres de países.</li>
+            <li>Apretá el botón de la <b>esquina</b> donde está la respuesta que creas correcta.</li>
+            <li>Tenés <b>60 segundos</b>. Cada acierto suma 1 punto.</li>
+        </ol>
+        <p class="nota">En la compu: Q = arriba izquierda, W = arriba derecha, A = abajo izquierda, S = abajo derecha.</p>
+    </main>
+
+    <footer>
+        <div class="lado">
+            <span>↩ Volver</span>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/input.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/reglas.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elegí un continente</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/continentes.css') }}">
+</head>
+<body>
+    <header>
+        <h1>¿Dónde querés jugar?</h1>
+    </header>
+
+    <main>
+        <div class="menu-continentes">
+            <div class="opcion" data-href="/jugar/america">🌎 América</div>
+            <div class="opcion" data-href="/jugar/europa">🏰 Europa</div>
+            <div class="opcion" data-href="/jugar/asia">🏯 Asia</div>
+            <div class="opcion" data-href="/jugar/africa">🦁 África</div>
+            <div class="opcion" data-href="/jugar/oceania">🦘 Oceanía</div>
+            <div class="opcion" data-href="/jugar/global">🌍 Global</div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="lado">
+            <span>▲ Anterior</span>
+            <span>▼ Siguiente</span>
+        </div>
+        <div class="lado">
+            <span>✔ Aceptar</span>
+            <span>↩ Volver</span>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/input.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/continentes.js') }}"></script>
+</body>
+</html>

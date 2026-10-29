@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jugar - Guess the Flag</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/jugar.css') }}">
+</head>
+<body data-continente="{{ continente }}">
+    <header>
+        <h1>¿De quién es esta bandera?</h1>
+        <div id="info">
+            <span>⏱ <b id="tiempo">60</b></span>
+            <span>⭐ <b id="puntos">0</b></span>
+        </div>
+    </header>
+
+    <main>
+        <section id="pantalla-juego">
+            <img id="bandera" src="" alt="Bandera a adivinar">
+
+            <div class="grilla">
+                <div class="respuesta" id="op0">...</div>
+                <div class="respuesta" id="op1">...</div>
+                <div class="respuesta" id="op2">...</div>
+                <div class="respuesta" id="op3">...</div>
+            </div>
+        </section>
+
+        <section id="pantalla-final" hidden>
+            <h2>¡Se acabó el tiempo!</h2>
+            <p class="puntaje">Puntaje: <b id="puntaje-final">0</b></p>
+        </section>
+    </main>
+
+    <footer>
+        <p id="ayuda">Tocá el botón de la esquina de tu respuesta (teclas Q W / A S)</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/input.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jugar.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+* { box-sizing: border-box; }
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f0f4ff;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header { padding: 25px 0 5px; text-align: center; }
+
+main {
+    flex: 1;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 10px 20px 90px;
+    font-size: 24px;
+    line-height: 1.6;
+}
+
+.nota { font-size: 18px; color: #475569; }
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: flex-end;
+    padding: 12px 20px;
+    background: #1e293b;
+    color: white;
+    font-size: 18px;
+}

@@ -1,40 +1,60 @@
 # hardware.py
+import threading
+import time
 from queue import Queue, Empty
 
-# Intenta usar la Raspberry. Si estás en tu PC, no existe y no pasa nada.
 try:
     import RPi.GPIO as GPIO
     EN_RASPBERRY = True
 except ImportError:
     EN_RASPBERRY = False
 
-# Qué pin corresponde a qué botón (los números son de ejemplo)
 PINES = {
-    17:  "arriba_izquierda",
-    18:  "arriba_derecha",
+    17: "arriba_izquierda",
+    18: "arriba_derecha",
     27: "abajo_izquierda",
     22: "abajo_derecha",
 }
 
-# La "libreta" donde se anotan los botones apretados
 cola = Queue()
+_iniciado = False
 
-def _al_presionar(pin):
-    # Se ejecuta sola cuando alguien aprieta un botón
-    cola.put(PINES[pin])
+
+def _vigilar():
+    anterior = {pin: 1 for pin in PINES}      # 1 = suelto
+    ultimo_toque = {pin: 0 for pin in PINES}
+
+    while True:
+        ahora = time.time()
+        for pin, nombre in PINES.items():
+            actual = GPIO.input(pin)
+            if anterior[pin] == 1 and actual == 0:
+                if ahora - ultimo_toque[pin] > 0.2:
+                    cola.put(nombre)
+                    ultimo_toque[pin] = ahora
+            anterior[pin] = actual
+        time.sleep(0.02)
+
 
 def iniciar():
+    global _iniciado
     if not EN_RASPBERRY:
-        print("No es una Raspberry: se van a usar las teclas del teclado")
+        print("ERROR: no se pudo cargar RPi.GPIO, el joystick no va a funcionar")
         return
+    if _iniciado:
+        return
+    _iniciado = True
+
+    GPIO.setwarnings(False)
     GPIO.setmode(GPIO.BCM)
     for pin in PINES:
         GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.add_event_detect(pin, GPIO.FALLING,
-                              callback=_al_presionar, bouncetime=200)
+
+    threading.Thread(target=_vigilar, daemon=True).start()
+    print("Joystick listo, vigilando los pines:", list(PINES.keys()))
+
 
 def obtener_eventos():
-    # Entrega todo lo anotado en la libreta y la deja vacía
     eventos = []
     while True:
         try:
