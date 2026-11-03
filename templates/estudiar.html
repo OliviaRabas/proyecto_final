@@ -12,12 +12,28 @@
     </header>
 
     <main>
-        <p>Próximamente...</p>
+        {% for c in continentes %}
+        <section class="continente" id="{{ c.id }}">
+            <h2>{{ c.emoji }} {{ c.nombre }}</h2>
+            <div class="banderas">
+                {% for p in c.paises %}
+                <div class="pais">
+                    <img src="{{ p.imagen }}" alt="Bandera de {{ p.nombre }}">
+                    <span>{{ p.nombre }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        {% endfor %}
     </main>
 
     <footer>
         <div class="lado">
-            <span>↩ Volver</span>
+            <span>▲ ▼ Desplazarte</span>
+            <span>◀ ▶ Cambiar de continente</span>
+        </div>
+        <div class="lado">
+            <span>Esc: Volver</span>
         </div>
     </footer>
 

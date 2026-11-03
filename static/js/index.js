@@ -8,9 +8,9 @@ function resaltar() {
 }
 
 alEntrada((evento) => {
-    if (evento === "arriba_izquierda") actual = (actual - 1 + opciones.length) % opciones.length;
-    if (evento === "abajo_izquierda")  actual = (actual + 1) % opciones.length;
-    if (evento === "arriba_derecha")   window.location = opciones[actual].dataset.href;
+    if (evento === "arriba" || evento === "izquierda") actual = (actual - 1 + opciones.length) % opciones.length;
+    if (evento === "abajo"  || evento === "derecha")   actual = (actual + 1) % opciones.length;
+    if (evento === "aceptar") window.location = opciones[actual].dataset.href;
     resaltar();
 });
 

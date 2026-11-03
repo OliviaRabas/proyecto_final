@@ -1,71 +1,361 @@
-* { box-sizing: border-box; }
+/* ==========================================================
+   Jugar - Modo fácil
+   Mismo esqueleto que el modo difícil, pero claro y tranquilo.
+   Clases que usa el JS: .seleccionada, .correcta, .incorrecta, [hidden]
+   ========================================================== */
 
-[hidden] { display: none !important; }
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@500;600&display=swap");
 
-body {
-    font-family: Arial, sans-serif;
-    background: #f0f4ff;
-    text-align: center;
-    margin: 0;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+:root {
+    --cielo: #f3f9fd;
+    --cielo-2: #e1f0fa;
+    --sol: #fff3c4;
+    --panel: #ffffff;
+    --borde: #cfe3ee;
+    --azul-suave: #9ccbea;
+    --azul: #2b79b8;
+    --azul-claro: #5fb0e6;
+    --acierto: #1f8f5a;
+    --acierto-fondo: #dff5e8;
+    --error: #c9473d;
+    --error-fondo: #fde6e3;
+    --aviso-fondo: #fff4d1;
+    --texto: #1f3a4d;
+    --texto-suave: #5b788b;
+
+    --display: "Bebas Neue", Impact, "Arial Narrow Bold", sans-serif;
+    --cuerpo: "Barlow Condensed", "Arial Narrow", "Segoe UI", sans-serif;
 }
 
-header { padding: 15px 0 0; }
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
 
-header h1 { margin: 0 0 10px; font-size: 26px; }
+[hidden] {
+    display: none !important;
+}
+
+html {
+    background: var(--cielo);
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    color: var(--texto);
+    font-family: var(--cuerpo);
+    font-size: 1.15rem;
+    background:
+        radial-gradient(ellipse 70% 40% at 50% 115%, var(--sol), transparent 70%),
+        radial-gradient(circle at 1px 1px, rgba(43, 121, 184, 0.07) 1px, transparent 1.5px) 0 0 / 22px 22px,
+        linear-gradient(180deg, var(--cielo), var(--cielo-2));
+}
+
+/* ---------- Botón Volver ---------- */
+
+#volver {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    z-index: 2;
+    padding: 0.45rem 1rem;
+    font-family: var(--display);
+    font-size: 1.25rem;
+    letter-spacing: 0.06em;
+    color: var(--texto-suave);
+    background: var(--panel);
+    border: 1px solid var(--borde);
+    border-left: 4px solid var(--azul-suave);
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(43, 121, 184, 0.08);
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+#volver:hover {
+    color: var(--texto);
+    border-left-color: var(--azul-claro);
+}
+
+#volver.seleccionada {
+    color: #fff;
+    background: linear-gradient(90deg, var(--azul), var(--azul-claro));
+    border-color: var(--azul);
+    border-left-color: #ffd95e;
+    box-shadow: 0 6px 16px rgba(43, 121, 184, 0.3);
+}
+
+#volver:focus-visible {
+    outline: 2px solid var(--azul);
+    outline-offset: 3px;
+}
+
+/* ---------- Encabezado: título, tiempo y puntos ---------- */
+
+header {
+    padding: 4rem 1.25rem 0.5rem;
+    text-align: center;
+}
+
+h1 {
+    margin: 0;
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(2rem, 6vw, 3.2rem);
+    line-height: 1;
+    letter-spacing: 0.04em;
+    color: var(--azul);
+    text-shadow: 0 3px 0 rgba(156, 203, 234, 0.7);
+}
 
 #info {
     display: flex;
     justify-content: center;
-    gap: 60px;
-    font-size: 28px;
+    gap: 1rem;
+    margin-top: 1.1rem;
 }
+
+#info span {
+    min-width: 7.5rem;
+    padding: 0.2rem 1.2rem;
+    font-family: var(--display);
+    font-size: 1.1rem;
+    letter-spacing: 0.08em;
+    color: var(--texto-suave);
+    background: var(--panel);
+    border: 1px solid var(--borde);
+    border-radius: 999px;
+    box-shadow: 0 2px 6px rgba(43, 121, 184, 0.08);
+}
+
+#info b {
+    font-weight: 400;
+    font-size: 2rem;
+    color: var(--azul);
+    font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Cartel de error ---------- */
+
+#error {
+    margin: 0.75rem auto 0;
+    max-width: min(640px, 92vw);
+    padding: 0.7rem 1rem;
+    text-align: center;
+    color: #6b4e00;
+    background: var(--aviso-fondo);
+    border: 1px solid #f0d27a;
+    border-left: 6px solid #e6b422;
+    border-radius: 10px;
+}
+
+/* ---------- Zona principal ---------- */
 
 main {
     flex: 1;
-    padding: 10px 20px 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 1.25rem;
 }
 
-#bandera {
-    height: 170px;
-    border: 3px solid #333;
-    border-radius: 8px;
-    margin-bottom: 20px;
+#pantalla-juego,
+#pantalla-final {
+    width: 100%;
+    max-width: 560px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.1rem;
 }
+
+/* Bandera con marco blanco, como una foto */
+#bandera {
+    display: block;
+    width: auto;
+    max-width: min(420px, 100%);
+    max-height: 34vh;
+    min-height: 120px;
+    object-fit: contain;
+    padding: 8px;
+    background: var(--panel);
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    box-shadow: 0 10px 28px rgba(43, 121, 184, 0.18);
+}
+
+/* ---------- Opciones de respuesta (grilla 2x2) ---------- */
 
 .grilla {
+    width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    max-width: 700px;
-    margin: 0 auto;
+    gap: 0.75rem;
 }
 
 .respuesta {
-    padding: 28px 10px;
-    font-size: 24px;
-    background: white;
-    border: 4px solid #ccc;
-    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 4.2rem;
+    padding: 0.7rem 0.9rem;
+    font-family: var(--cuerpo);
+    font-weight: 600;
+    font-size: 1.45rem;
+    line-height: 1.1;
+    text-align: center;
+    color: var(--texto);
+    background: var(--panel);
+    border: 2px solid var(--borde);
+    border-radius: 14px;
+    box-shadow: 0 2px 6px rgba(43, 121, 184, 0.08);
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.respuesta.bien { background: #bbf7d0; border-color: #16a34a; }
-.respuesta.mal  { background: #fecaca; border-color: #dc2626; }
+.respuesta:hover {
+    border-color: var(--azul-claro);
+}
 
-#pantalla-final h2 { font-size: 40px; }
-.puntaje { font-size: 32px; }
+/* Opción elegida con el teclado */
+.respuesta.seleccionada {
+    color: #fff;
+    transform: translateY(-3px);
+    background: linear-gradient(135deg, var(--azul), var(--azul-claro));
+    border-color: var(--azul);
+    box-shadow: 0 8px 20px rgba(43, 121, 184, 0.3);
+}
+
+/* Después de responder (van después de .seleccionada para ganarle) */
+.respuesta.correcta {
+    color: var(--acierto);
+    background: var(--acierto-fondo);
+    border-color: var(--acierto);
+    box-shadow: 0 6px 18px rgba(31, 143, 90, 0.25);
+}
+
+.respuesta.incorrecta {
+    color: var(--error);
+    background: var(--error-fondo);
+    border-color: var(--error);
+    box-shadow: 0 6px 18px rgba(201, 71, 61, 0.2);
+}
+
+/* ---------- Pantalla final ---------- */
+
+#pantalla-final {
+    padding: 2rem 1.5rem;
+    text-align: center;
+    background: var(--panel);
+    border: 1px solid var(--borde);
+    border-top: 6px solid var(--azul-claro);
+    border-radius: 18px;
+    box-shadow: 0 14px 40px rgba(43, 121, 184, 0.18);
+}
+
+#titulo-final {
+    margin: 0;
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(2.2rem, 7vw, 3.4rem);
+    line-height: 1;
+    letter-spacing: 0.04em;
+    color: var(--azul);
+}
+
+#detalle-final {
+    margin: 0;
+    max-width: 44ch;
+    color: var(--error);
+}
+
+#detalle-final:empty {
+    display: none;
+}
+
+.puntaje {
+    margin: 0;
+    font-family: var(--display);
+    font-size: 1.4rem;
+    letter-spacing: 0.08em;
+    color: var(--texto-suave);
+}
+
+.puntaje b {
+    display: block;
+    font-weight: 400;
+    font-size: 5.5rem;
+    line-height: 1;
+    color: var(--azul);
+}
+
+#ayuda-final {
+    margin: 0.5rem 0 0;
+    padding-top: 1rem;
+    width: 100%;
+    border-top: 1px solid var(--borde);
+    color: var(--texto-suave);
+}
+
+/* ---------- Pie ---------- */
 
 footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 12px 20px;
-    background: #1e293b;
-    color: white;
-    font-size: 18px;
+    padding: 1rem 1.25rem 1.5rem;
+    text-align: center;
+    border-top: 1px solid var(--borde);
+    background: rgba(255, 255, 255, 0.7);
 }
 
-footer p { margin: 0; }
+#ayuda {
+    margin: 0 auto;
+    max-width: 70ch;
+    font-size: 1.05rem;
+    line-height: 1.35;
+    color: var(--texto-suave);
+}
+
+/* ---------- Adaptación a pantallas chicas ---------- */
+
+@media (max-width: 480px) {
+    header {
+        padding-top: 3.75rem;
+    }
+
+    #info {
+        gap: 0.6rem;
+    }
+
+    #info span {
+        min-width: 6.5rem;
+        padding-inline: 0.8rem;
+    }
+
+    .respuesta {
+        min-height: 3.6rem;
+        font-size: 1.2rem;
+    }
+
+    .puntaje b {
+        font-size: 4.5rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .respuesta,
+    #volver {
+        transition: none;
+    }
+
+    .respuesta.seleccionada {
+        transform: none;
+    }
+}

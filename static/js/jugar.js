@@ -1,94 +1,262 @@
-// El continente viene del HTML: <body data-continente="europa">
+// ---- Ajustes ----
+// Ruta de respaldo de las banderas (normalmente el servidor ya manda la ruta correcta)
+const rutaBandera = (codigo) => `/static/flags/${codigo}.svg`;
+const DURACION = 60;        // segundos de la partida
+const FEEDBACK_MS = 700;    // cuánto se muestra verde/rojo antes de pasar a la próxima
+
 const continente = document.body.dataset.continente;
-const RUTA_BANDERAS = "/static/flags/";
 
-// Cada botón del joystick = una respuesta (mismo orden que la cuadrícula)
-const BOTONES = {
-    arriba_izquierda: 0,
-    arriba_derecha: 1,
-    abajo_izquierda: 2,
-    abajo_derecha: 3
-};
+// ---- Elementos de la página ----
+// Si falta alguno en jugar.html, el juego NO se rompe: se crea solo (o se ignora).
+const porId = (id) => document.getElementById(id);
 
-const pantallaJuego = document.getElementById('pantalla-juego');
-const pantallaFinal = document.getElementById('pantalla-final');
-const ayuda = document.getElementById('ayuda');
+function faltante(id) {
+    console.warn("Falta el elemento #" + id + " en jugar.html");
+    return document.createElement("span");   // elemento suelto, no se ve en la página
+}
 
-let puntos = 0;
-let tiempo = 60;
-let terminado = false;
-let bloqueado = true;   // true mientras se muestra si acertó o no
+function crear(tag, padre, id, texto = "") {
+    const el = document.createElement(tag);
+    if (id) el.id = id;
+    el.textContent = texto;
+    padre.appendChild(el);
+    return el;
+}
 
-async function cargarPregunta() {
-    const resp = await fetch('/api/pregunta/' + continente);
-    const p = await resp.json();
+const principal = document.querySelector("main") || document.body;
 
-    if (p.error) {
-        alert(p.error);
-        return;
+// Imprescindibles (vienen en jugar.html)
+const ops = [0, 1, 2, 3].map(i => porId("op" + i) || faltante("op" + i));
+const imgBandera = porId("bandera") || faltante("bandera");
+const elTiempo = porId("tiempo") || faltante("tiempo");
+const elPuntos = porId("puntos") || faltante("puntos");
+const pantallaJuego = porId("pantalla-juego") || faltante("pantalla-juego");
+
+// Botón volver (arriba a la izquierda)
+let btnVolver = porId("volver");
+if (!btnVolver) {
+    btnVolver = document.createElement("div");
+    btnVolver.id = "volver";
+    btnVolver.textContent = "← Volver";
+    document.body.insertBefore(btnVolver, document.body.firstChild);
+}
+
+// Cartel de error / aviso
+let elError = porId("error");
+if (!elError) {
+    elError = document.createElement("p");
+    elError.id = "error";
+    elError.hidden = true;
+    const header = document.querySelector("header");
+    if (header && header.parentNode) header.parentNode.insertBefore(elError, header.nextSibling);
+    else document.body.insertBefore(elError, document.body.firstChild);
+}
+
+// Pantalla final
+let pantallaFinal = porId("pantalla-final");
+if (!pantallaFinal) {
+    pantallaFinal = crear("section", principal, "pantalla-final");
+    pantallaFinal.hidden = true;
+}
+const tituloFinal = porId("titulo-final") || pantallaFinal.querySelector("h2") || crear("h2", pantallaFinal, "titulo-final");
+const detalleFinal = porId("detalle-final") || crear("p", pantallaFinal, "detalle-final");
+let puntajeFinal = porId("puntaje-final");
+let lineaPuntaje = porId("linea-puntaje");
+if (!puntajeFinal) {
+    lineaPuntaje = crear("p", pantallaFinal, "linea-puntaje", "Puntaje: ");
+    puntajeFinal = crear("b", lineaPuntaje, "puntaje-final", "0");
+} else if (!lineaPuntaje) {
+    lineaPuntaje = puntajeFinal.parentElement || pantallaFinal;
+}
+const ayudaFinal = porId("ayuda-final") || crear("p", pantallaFinal, "ayuda-final");
+
+// ---- Estado ----
+let tiempo = DURACION, puntos = 0, seleccion = 0, bloqueado = true, terminado = false, reloj = null;
+
+// Mostrar / ocultar con el atributo "hidden"
+function mostrar(el, si) {
+    el.hidden = !si;
+}
+
+function mostrarError(texto) {
+    elError.textContent = texto;
+    mostrar(elError, !!texto);
+    if (texto) console.error(texto);
+}
+
+window.addEventListener("error", (ev) => mostrarError("Error en el juego: " + ev.message));
+window.addEventListener("unhandledrejection", (ev) => mostrarError("Error en el juego: " + ev.reason));
+
+function resaltar() {
+    ops.forEach((op, i) => op.classList.toggle("seleccionada", i === seleccion));
+    btnVolver.classList.toggle("seleccionada", seleccion === -1);
+}
+
+function irAContinentes() {
+    clearInterval(reloj);
+    window.location = "/jugar/facil";
+}
+
+// ---- Partida ----
+async function iniciar() {
+    clearInterval(reloj);
+    terminado = false;
+    bloqueado = true;
+    puntos = 0;
+    tiempo = DURACION;
+    seleccion = 0;
+    elPuntos.textContent = puntos;
+    elTiempo.textContent = tiempo;
+    ops.forEach(op => { op.textContent = "..."; op.classList.remove("correcta", "incorrecta"); });
+    mostrarError("");
+    mostrar(pantallaFinal, false);
+    mostrar(pantallaJuego, true);
+    resaltar();
+
+    const cargada = await siguientePregunta(true);   // true = ronda nueva (se mezclan las banderas)
+    if (!cargada) return;
+    reloj = setInterval(tick, 1000);                 // el tiempo arranca cuando aparece la 1ª bandera
+}
+
+function tick() {
+    tiempo--;
+    elTiempo.textContent = tiempo;
+    if (tiempo <= 0) finalizar("tiempo");
+}
+
+// Devuelve true si se cargó una pregunta
+async function siguientePregunta(nueva = false) {
+    const url = `/api/pregunta/${continente}` + (nueva ? "?nueva=1" : "");
+    let r, datos;
+
+    try {
+        r = await fetch(url);
+    } catch (e) {
+        finalizar("error", "No hay conexión con el servidor (" + e.message + ").");
+        return false;
+    }
+    try {
+        datos = await r.json();
+    } catch (e) {
+        finalizar("error", `El servidor respondió ${r.status} en ${url}. Reiniciá Flask con el app.py nuevo.`);
+        return false;
+    }
+    if (terminado) return false;                       // el tiempo se acabó mientras cargaba
+    if (!r.ok) {
+        finalizar("error", datos.error || `El servidor respondió ${r.status}.`);
+        return false;
+    }
+    if (datos.fin) {                                   // pasaron todas las banderas
+        finalizar("banderas");
+        return false;
     }
 
-    document.getElementById('bandera').src = RUTA_BANDERAS + p.bandera + '.svg';
-    p.opciones.forEach((nombre, i) => {
-        const caja = document.getElementById('op' + i);
-        caja.textContent = nombre;
-        caja.classList.remove('bien', 'mal');
+    mostrarError("");
+    if (datos.restantes === undefined) {
+        mostrarError("Aviso: Flask tiene un app.py viejo, por eso las banderas pueden repetirse. Reinicialo con el nuevo.");
+    }
+    imgBandera.src = datos.imagen || rutaBandera(datos.bandera);
+    datos.opciones.forEach((nombre, i) => {
+        ops[i].textContent = nombre;
+        ops[i].classList.remove("correcta", "incorrecta");
     });
     bloqueado = false;
+    return true;
 }
 
-async function responder(numero) {
+async function responder(i) {
+    if (bloqueado || terminado) return;
     bloqueado = true;
-    const resp = await fetch('/api/responder', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({opcion: numero})
-    });
-    const r = await resp.json();
 
-    // La correcta en verde y, si falló, la elegida en rojo
-    document.getElementById('op' + r.correcta).classList.add('bien');
-    if (r.acierto) {
-        puntos++;
-        document.getElementById('puntos').textContent = puntos;
-    } else {
-        document.getElementById('op' + numero).classList.add('mal');
-    }
-
-    // Esperar un poquito y pasar a la siguiente
-    setTimeout(() => {
-        if (!terminado) cargarPregunta();
-    }, 700);
-}
-
-function terminar() {
-    terminado = true;
-    pantallaJuego.hidden = true;
-    pantallaFinal.hidden = false;
-    document.getElementById('puntaje-final').textContent = puntos;
-    ayuda.textContent = "▲ Jugar de nuevo (Q)     ↩ Elegir continente (S)";
-}
-
-// Reloj: baja de a 1 segundo
-const reloj = setInterval(() => {
-    tiempo--;
-    document.getElementById('tiempo').textContent = tiempo;
-    if (tiempo <= 0) {
-        clearInterval(reloj);
-        terminar();
-    }
-}, 1000);
-
-// Botones del joystick (o las teclas Q W A S)
-alEntrada((evento) => {
-    if (terminado) {
-        if (evento === "arriba_izquierda") window.location.reload();
-        if (evento === "abajo_derecha")    window.location = "/jugar";
+    let datos;
+    try {
+        const r = await fetch("/api/responder", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ opcion: i })
+        });
+        datos = await r.json();
+    } catch (e) {
+        finalizar("error", "No se pudo enviar la respuesta (" + e.message + ").");
         return;
     }
-    if (!bloqueado && evento in BOTONES) {
-        responder(BOTONES[evento]);
+    if (terminado) return;
+
+    ops[i].classList.add(datos.acierto ? "correcta" : "incorrecta");
+    if (!datos.acierto) ops[datos.correcta].classList.add("correcta");
+    if (datos.acierto) {
+        puntos++;
+        elPuntos.textContent = puntos;
     }
+
+    setTimeout(() => {
+        if (!terminado) siguientePregunta();
+    }, FEEDBACK_MS);
+}
+
+function finalizar(motivo, detalle = "") {
+    if (terminado) return;
+    terminado = true;
+    bloqueado = true;
+    clearInterval(reloj);
+
+    const titulos = {
+        tiempo: "¡Se acabó el tiempo!",
+        banderas: "¡Pasaron todas las banderas!",
+        error: "Ups, hubo un problema con el juego"
+    };
+    const esError = motivo === "error";
+    tituloFinal.textContent = titulos[motivo];
+    detalleFinal.textContent = esError ? detalle : "";
+    puntajeFinal.textContent = puntos;
+    mostrar(lineaPuntaje, !esError);
+    ayudaFinal.textContent = esError
+        ? "⏎ Enter: reintentar  ·  Esc: volver"
+        : "⏎ Enter: jugar de nuevo  ·  Esc: elegir continente";
+    if (esError) console.error(detalle);
+
+    mostrarError("");
+    mostrar(pantallaJuego, false);
+    mostrar(pantallaFinal, true);
+    seleccion = 0;
+    resaltar();
+}
+
+// ---- Teclado ----
+alEntrada((evento) => {
+    // Pantalla final: Enter = jugar de nuevo / reintentar, Esc = elegir continente
+    if (terminado) {
+        if (evento === "aceptar") iniciar();
+        if (evento === "volver") irAContinentes();
+        return;
+    }
+
+    if (evento === "volver") return irAContinentes();
+
+    // Atajos Q W / A S (responden directo)
+    if (evento.startsWith("directo")) return responder(Number(evento.slice(7)));
+
+    // seleccion: -1 = botón volver, 0..3 = respuestas (grilla 2x2)
+    if (seleccion === -1) {
+        if (evento === "abajo")   seleccion = 0;
+        if (evento === "aceptar") return irAContinentes();
+    } else {
+        const col = seleccion % 2;
+        const fila = Math.floor(seleccion / 2);
+        if (evento === "izquierda" && col === 1) seleccion -= 1;
+        if (evento === "derecha"   && col === 0) seleccion += 1;
+        if (evento === "abajo"     && fila === 0) seleccion += 2;
+        if (evento === "arriba")   seleccion = fila === 1 ? seleccion - 2 : -1;
+        if (evento === "aceptar")  responder(seleccion);
+    }
+    resaltar();
 });
 
-cargarPregunta();
+// Si la imagen no carga, avisamos pero el juego sigue andando
+imgBandera.addEventListener("error", () => {
+    mostrarError("No se encontró la imagen de la bandera (" + imgBandera.getAttribute("src") + ").");
+});
+
+btnVolver.addEventListener("click", irAContinentes);
+
+iniciar();

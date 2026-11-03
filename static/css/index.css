@@ -1,50 +1,76 @@
-* { box-sizing: border-box; }
+/* =====================================================
+   index.css  ·  Menú principal (Estudiar / Jugar / Reglas)
+   ===================================================== */
+
+/* ---- Colores y medidas (editá acá y cambia todo) ---- */
+:root {
+    --fondo: #0f172a;
+    --superficie: #1e293b;
+    --borde: #334155;
+    --texto: #f1f5f9;
+    --texto-suave: #94a3b8;
+    --acento: #facc15;
+    --radio: 14px;
+}
+
+/* ---- Base ---- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+[hidden] { display: none !important; }   /* que "hidden" siempre oculte */
 
 body {
-    font-family: Arial, sans-serif;
-    background: #f0f4ff;
-    text-align: center;
-    margin: 0;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    background: var(--fondo);
+    color: var(--texto);
+    font-family: system-ui, "Segoe UI", Roboto, sans-serif;
 }
 
-header { padding: 25px 0 5px; }
+/* ---- Título ---- */
+header {
+    text-align: center;
+    padding: 28px 16px 8px;
+}
+h1 { font-size: clamp(2rem, 5vw, 3.2rem); }
 
+/* ---- Opciones del menú ---- */
 main {
     flex: 1;
-    padding: 10px 20px 90px; /* espacio abajo para que el footer no tape nada */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    padding: 16px;
 }
 
 .opcion {
-    width: 320px;
-    margin: 20px auto;
-    padding: 25px;
-    font-size: 28px;
-    background: white;
-    border: 4px solid #ccc;
-    border-radius: 15px;
+    width: min(90vw, 460px);
+    padding: 22px;
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: var(--superficie);
+    border: 3px solid var(--borde);
+    border-radius: var(--radio);
+    cursor: pointer;
 }
 
-/* La opción elegida tiene que notarse MUCHO */
+/* La opción elegida con las flechas */
 .opcion.seleccionada {
-    border-color: #2563eb;
-    background: #dbeafe;
-    transform: scale(1.1);
+    outline: 4px solid var(--acento);
+    outline-offset: 4px;
+    transform: scale(1.04);
 }
 
+/* ---- Pie con las teclas ---- */
 footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
     display: flex;
     justify-content: space-between;
-    padding: 12px 20px;
-    background: #1e293b;
-    color: white;
-    font-size: 18px;
+    gap: 16px;
+    padding: 14px 24px;
+    background: var(--superficie);
+    border-top: 2px solid var(--borde);
+    color: var(--texto-suave);
 }
-
-footer .lado { display: flex; gap: 25px; }
+footer .lado { display: flex; gap: 22px; }

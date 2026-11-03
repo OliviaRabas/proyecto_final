@@ -1,3 +1,3 @@
 alEntrada((evento) => {
-    if (evento === "abajo_derecha") window.location = "/";
+    if (evento === "volver" || evento === "aceptar") window.location = "/";
 });

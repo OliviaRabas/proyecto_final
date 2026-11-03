@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jugar difícil - Guess the Flag</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/jugar_dificil.css') }}"> -->
+</head>
+<body data-continente="{{ continente }}">
+    <div id="volver" role="button" tabindex="0">← Volver</div>
+
+    <header>
+        <h1>¿De quién es esta bandera?</h1>
+        <div id="info">
+            <span>⏱ <b id="tiempo">40</b></span>
+            <span>⭐ <b id="puntos">0</b></span>
+        </div>
+    </header>
+
+    <p id="error" hidden></p>
+
+    <main>
+        <section id="pantalla-juego">
+            <img id="bandera" src="" alt="Bandera a adivinar">
+
+            <input type="text" id="respuesta-texto"
+                   placeholder="Escribí el nombre del país sin mayúsculas"
+                   autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false">
+
+            <p id="resultado-texto"></p>
+        </section>
+
+        <section id="pantalla-final" hidden>
+            <h2 id="titulo-final">¡Se acabó el tiempo!</h2>
+            <p id="detalle-final"></p>
+            <p id="linea-puntaje" class="puntaje">Puntaje: <b id="puntaje-final">0</b></p>
+            <p id="ayuda-final"></p>
+        </section>
+    </main>
+
+    <footer>
+        <p id="ayuda">Escribí el nombre del país sin mayúsculas y apretá Enter para responder. ▲ para ir a Volver, ▼ para volver a escribir. Esc para salir.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/input_dificil.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jugar_dificil.js') }}"></script>
+</body>
+</html>

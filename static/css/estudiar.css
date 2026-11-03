@@ -1,32 +1,113 @@
-* { box-sizing: border-box; }
+/* =====================================================
+   estudiar.css  ·  Las 50 banderas por continente
+   ===================================================== */
+
+/* ---- Colores y medidas (editá acá y cambia todo) ---- */
+:root {
+    --fondo: #0f172a;
+    --superficie: #1e293b;
+    --borde: #334155;
+    --texto: #f1f5f9;
+    --texto-suave: #94a3b8;
+    --acento: #facc15;
+    --radio: 14px;
+}
+
+/* ---- Base ---- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+[hidden] { display: none !important; }   /* que "hidden" siempre oculte */
 
 body {
-    font-family: Arial, sans-serif;
-    background: #f0f4ff;
-    text-align: center;
-    margin: 0;
     min-height: 100vh;
+    background: var(--fondo);
+    color: var(--texto);
+    font-family: system-ui, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ---- Botón Volver (arriba a la izquierda, siempre visible) ---- */
+#volver {
+    position: fixed;
+    top: 14px;
+    left: 14px;
+    z-index: 10;
+    padding: 10px 16px;
+    background: var(--superficie);
+    color: var(--texto);
+    border: 3px solid var(--borde);
+    border-radius: 10px;
+    font-weight: 700;
+    text-decoration: none;
+}
+.seleccionada {
+    outline: 4px solid var(--acento);
+    outline-offset: 4px;
+}
+
+/* ---- Título ---- */
+header {
+    text-align: center;
+    padding: 24px 16px 8px;
+}
+h1 { font-size: clamp(1.8rem, 4.5vw, 3rem); }
+
+/* ---- Lista de continentes ---- */
+main {
+    padding: 16px 16px 90px;   /* abajo: lugar para el pie fijo */
+}
+
+.continente {
+    width: min(1100px, 96vw);
+    margin: 0 auto 36px;
+}
+
+.continente h2 {
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 3px solid var(--acento);
+    font-size: 1.8rem;
+}
+
+/* ---- Banderas: grilla que se acomoda sola ---- */
+.banderas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 14px;
+}
+
+.pais {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 8px;
+    background: var(--superficie);
+    border: 2px solid var(--borde);
+    border-radius: var(--radio);
+    text-align: center;
 }
 
-header { padding: 25px 0 5px; }
-
-main {
-    flex: 1;
-    padding: 10px 20px 90px;
-    font-size: 24px;
+.pais img {
+    width: 100%;
+    height: 90px;
+    object-fit: contain;
 }
 
+.pais span {
+    font-weight: 700;
+}
+
+/* ---- Pie con las teclas (fijo abajo) ---- */
 footer {
     position: fixed;
-    bottom: 0;
     left: 0;
     right: 0;
+    bottom: 0;
     display: flex;
-    justify-content: flex-end;
-    padding: 12px 20px;
-    background: #1e293b;
-    color: white;
-    font-size: 18px;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 24px;
+    background: var(--superficie);
+    border-top: 2px solid var(--borde);
+    color: var(--texto-suave);
 }
+footer .lado { display: flex; gap: 22px; }

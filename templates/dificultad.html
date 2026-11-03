@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elegí la dificultad</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dificultad.css') }}">
+</head>
+<body>
+    <header>
+        <h1>¿Qué dificultad querés?</h1>
+    </header>
+
+    <main>
+        <div class="menu-dificultad">
+            <div class="opcion" data-href="/jugar/facil">🙂 Fácil</div>
+            <div class="opcion" data-href="/jugar/dificil">🔥 Difícil</div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="lado">
+            <span>▲ Anterior</span>
+            <span>▼ Siguiente</span>
+        </div>
+        <div class="lado">
+            <span>⏎ Enter: Aceptar</span>
+            <span>Esc: Volver</span>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/input.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dificultad.js') }}"></script>
+</body>
+</html>

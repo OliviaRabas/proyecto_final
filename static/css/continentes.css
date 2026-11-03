@@ -1,55 +1,191 @@
-* { box-sizing: border-box; }
+/* ==========================================================
+   Continentes - Modo fácil
+   Mismo esqueleto que el modo difícil, pero claro y tranquilo:
+   cielo despejado, azul suave y esquinas redondeadas.
+   ========================================================== */
 
-body {
-    font-family: Arial, sans-serif;
-    background: #f0f4ff;
-    text-align: center;
-    margin: 0;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@500;600&display=swap");
+
+:root {
+    --cielo: #f3f9fd;
+    --cielo-2: #e1f0fa;
+    --sol: #fff3c4;
+    --panel: #ffffff;
+    --borde: #cfe3ee;
+    --azul-suave: #9ccbea;
+    --azul: #2b79b8;
+    --azul-claro: #5fb0e6;
+    --texto: #1f3a4d;
+    --texto-suave: #5b788b;
+
+    --display: "Bebas Neue", Impact, "Arial Narrow Bold", sans-serif;
+    --cuerpo: "Barlow Condensed", "Arial Narrow", "Segoe UI", sans-serif;
 }
 
-header { padding: 25px 0 5px; }
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+html {
+    background: var(--cielo);
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    color: var(--texto);
+    font-family: var(--cuerpo);
+    font-size: 1.15rem;
+    background:
+        radial-gradient(ellipse 70% 40% at 50% 115%, var(--sol), transparent 70%),
+        radial-gradient(circle at 1px 1px, rgba(43, 121, 184, 0.07) 1px, transparent 1.5px) 0 0 / 22px 22px,
+        linear-gradient(180deg, var(--cielo), var(--cielo-2));
+}
+
+/* ---------- Encabezado ---------- */
+
+header {
+    padding: 2.5rem 1.25rem 1rem;
+    text-align: center;
+}
+
+h1 {
+    margin: 0 auto;
+    max-width: 18ch;
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(2.4rem, 7vw, 4.2rem);
+    line-height: 1;
+    letter-spacing: 0.04em;
+    color: var(--azul);
+    text-shadow: 0 3px 0 rgba(156, 203, 234, 0.7);
+}
+
+header::after {
+    content: "";
+    display: block;
+    width: min(260px, 60%);
+    height: 4px;
+    margin: 1.25rem auto 0;
+    border-radius: 4px;
+    background: linear-gradient(90deg, transparent, var(--azul-claro), transparent);
+}
+
+/* ---------- Menú ---------- */
 
 main {
     flex: 1;
-    padding: 10px 20px 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem 1.25rem;
 }
 
 .menu-continentes {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    max-width: 700px;
-    margin: 20px auto;
+    width: 100%;
+    max-width: 520px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
 }
 
 .opcion {
-    padding: 30px 10px;
-    font-size: 26px;
-    background: white;
-    border: 4px solid #ccc;
-    border-radius: 15px;
+    position: relative;
+    padding: 0.9rem 1.4rem 0.9rem 1.6rem;
+    font-family: var(--display);
+    font-size: clamp(1.5rem, 4.5vw, 1.9rem);
+    letter-spacing: 0.06em;
+    color: var(--texto-suave);
+    background: var(--panel);
+    border: 1px solid var(--borde);
+    border-left: 6px solid var(--azul-suave);
+    border-radius: 14px;
+    box-shadow: 0 2px 6px rgba(43, 121, 184, 0.08);
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.opcion.seleccionada {
-    border-color: #2563eb;
-    background: #dbeafe;
-    transform: scale(1.05);
+.opcion:hover {
+    color: var(--texto);
+    border-left-color: var(--azul-claro);
 }
+
+/* La opción elegida con el teclado */
+.opcion.seleccionada {
+    color: #fff;
+    transform: translateX(14px);
+    background: linear-gradient(90deg, var(--azul), var(--azul-claro));
+    border-color: var(--azul);
+    border-left-color: #ffd95e;
+    box-shadow: 0 8px 20px rgba(43, 121, 184, 0.3);
+}
+
+.opcion.seleccionada::before {
+    content: "▶";
+    position: absolute;
+    left: -1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.9rem;
+    color: var(--azul);
+}
+
+/* ---------- Pie con controles ---------- */
 
 footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
     display: flex;
-    justify-content: space-between;
-    padding: 12px 20px;
-    background: #1e293b;
-    color: white;
-    font-size: 18px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem 2.5rem;
+    padding: 1rem 1.25rem 1.5rem;
+    border-top: 1px solid var(--borde);
+    background: rgba(255, 255, 255, 0.7);
+    font-size: 1.05rem;
+    color: var(--texto-suave);
 }
 
-footer .lado { display: flex; gap: 25px; }
+.lado {
+    display: flex;
+    gap: 1.5rem;
+}
+
+/* ---------- Accesibilidad y adaptación ---------- */
+
+.opcion:focus-visible {
+    outline: 2px solid var(--azul);
+    outline-offset: 3px;
+}
+
+@media (max-width: 480px) {
+    header {
+        padding-top: 1.75rem;
+    }
+
+    .opcion.seleccionada {
+        transform: translateX(8px);
+    }
+
+    .opcion.seleccionada::before {
+        left: -1.2rem;
+    }
+
+    .lado {
+        gap: 1rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .opcion {
+        transition: none;
+    }
+}
