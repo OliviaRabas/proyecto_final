@@ -1,76 +1,189 @@
-/* =====================================================
-   index.css  ·  Menú principal (Estudiar / Jugar / Reglas)
-   ===================================================== */
+/* Importamos fuentes de Google con toque clásico/gótico y legible */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=IM+Fell+English+SC&family=MedievalSharp&display=swap');
 
-/* ---- Colores y medidas (editá acá y cambia todo) ---- */
 :root {
-    --fondo: #0f172a;
-    --superficie: #1e293b;
-    --borde: #334155;
-    --texto: #f1f5f9;
-    --texto-suave: #94a3b8;
-    --acento: #facc15;
-    --radio: 14px;
+  --color-pergamino-fondo: #f4ebd0;
+  --color-pergamino-oscuro: #e3d2ab;
+  --color-borde-mapa: #4a3525;
+  --color-tinta: #2c1d11;
+  --color-tinta-clara: #5c4033;
+  --color-acento-oro: #bfa15f;
+  --color-acento-rojo: #8b0000;
+  --sombra-pergamino: 0 15px 35px rgba(25, 15, 8, 0.5), inset 0 0 50px rgba(139, 115, 85, 0.3);
 }
 
-/* ---- Base ---- */
-* { box-sizing: border-box; margin: 0; padding: 0; }
-[hidden] { display: none !important; }   /* que "hidden" siempre oculte */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 body {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    background: var(--fondo);
-    color: var(--texto);
-    font-family: system-ui, "Segoe UI", Roboto, sans-serif;
+  background-color: #1a120b;
+  /* Fondo estilo mesa de madera antigua con textura sutil */
+  background-image: 
+    radial-gradient(circle, rgba(60, 40, 20, 0.4) 0%, rgba(15, 10, 5, 0.9) 100%),
+    url("https://www.transparenttextures.com/patterns/wood-pattern.png");
+  color: var(--color-tinta);
+  font-family: 'Cinzel', serif;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+  padding: 2rem;
+  position: relative;
 }
 
-/* ---- Título ---- */
+/* Efecto de viñeta/marco de mapa antiguo en los bordes de la pantalla */
+body::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  box-shadow: inset 0 0 100px rgba(0,0,0,0.8);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* --- HEADER / TÍTULO --- */
 header {
-    text-align: center;
-    padding: 28px 16px 8px;
+  margin-top: 1rem;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  animation: fadeInDown 1.2s ease-out;
 }
-h1 { font-size: clamp(2rem, 5vw, 3.2rem); }
 
-/* ---- Opciones del menú ---- */
+header h1 {
+  font-family: 'MedievalSharp', cursive;
+  font-size: 3.5rem;
+  color: #f4ebd0;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9), 0 0 20px rgba(191, 161, 95, 0.4);
+  letter-spacing: 2px;
+  border-bottom: 2px solid var(--color-acento-oro);
+  border-top: 2px solid var(--color-acento-oro);
+  padding: 0.2rem 2rem;
+}
+
+/* --- MAIN / CONTENEDOR PRINCIPAL (ESTILO PERGAMINO) --- */
 main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 18px;
-    padding: 16px;
+  background-color: var(--color-pergamino-fondo);
+  background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+  width: 100%;
+  max-width: 550px;
+  padding: 3rem 2.5rem;
+  border-radius: 12px;
+  border: 4px solid var(--color-borde-mapa);
+  box-shadow: var(--sombra-pergamino);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: relative;
+  z-index: 2;
+  animation: zoomIn 1s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Detalles decorativos en las esquinas del pergamino */
+main::before {
+  content: "✦";
+  position: absolute;
+  top: 10px; left: 10px;
+  color: var(--color-borde-mapa);
+  font-size: 1.2rem;
+}
+main::after {
+  content: "✦";
+  position: absolute;
+  bottom: 10px; right: 10px;
+  color: var(--color-borde-mapa);
+  font-size: 1.2rem;
+}
+
+/* --- OPCIONES / BOTONES --- */
 .opcion {
-    width: min(90vw, 460px);
-    padding: 22px;
-    text-align: center;
-    font-size: 1.8rem;
-    font-weight: 700;
-    background: var(--superficie);
-    border: 3px solid var(--borde);
-    border-radius: var(--radio);
-    cursor: pointer;
+  background: linear-gradient(to bottom, #fcf8ec, #ebd7b2);
+  border: 2px solid var(--color-borde-mapa);
+  border-radius: 6px;
+  padding: 1.1rem 1.5rem;
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--color-tinta);
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.6);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+  letter-spacing: 1px;
 }
 
-/* La opción elegida con las flechas */
-.opcion.seleccionada {
-    outline: 4px solid var(--acento);
-    outline-offset: 4px;
-    transform: scale(1.04);
+/* Iconos o pequeñas viñetas tipográficas dentro de las opciones */
+.opcion:hover {
+  transform: translateY(-4px) scale(1.02);
+  background: linear-gradient(to bottom, #fffdf4, #f3e2bf);
+  border-color: var(--color-acento-rojo);
+  color: var(--color-acento-rojo);
+  box-shadow: 0 8px 15px rgba(44, 29, 17, 0.3), 0 0 12px rgba(191, 161, 95, 0.6);
 }
 
-/* ---- Pie con las teclas ---- */
+/* Estado Activo / Seleccionado por Teclado o Mouse */
+.opcion.seleccionado {
+  background: linear-gradient(to bottom, #e3c896, #c5a059);
+  border-color: var(--color-acento-rojo);
+  color: #3a0a00;
+  transform: scale(1.03);
+  box-shadow: 0 0 15px rgba(139, 0, 0, 0.5), inset 0 0 10px rgba(0,0,0,0.15);
+}
+
+.opcion.seleccionado::before {
+  content: "▶ ";
+  color: var(--color-acento-rojo);
+  font-size: 1rem;
+}
+
+/* --- FOOTER / GUÍA DE TECLADO --- */
 footer {
-    display: flex;
-    justify-content: space-between;
-    gap: 16px;
-    padding: 14px 24px;
-    background: var(--superficie);
-    border-top: 2px solid var(--borde);
-    color: var(--texto-suave);
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  justify-content: space-between;
+  background: rgba(30, 20, 10, 0.7);
+  border: 1px solid var(--color-acento-oro);
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  color: #ebd7b2;
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+  position: relative;
+  z-index: 2;
+  animation: fadeInUp 1.2s ease-out;
 }
-footer .lado { display: flex; gap: 22px; }
+
+.lado {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.lado span {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  text-shadow: 1px 1px 2px #000;
+}
+
+/* --- ANIMACIONES --- */
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes zoomIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}

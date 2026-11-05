@@ -1,80 +1,276 @@
-/* dificultad.css - pantalla para elegir la dificultad */
+/* =====================================================
+   dificultad.css  ·  Elegí la dificultad
+   Estilo retro/arcade. Al resaltar una opción, todo el
+   fondo se acerca a su ambiente: claro (fácil) u oscuro (difícil).
+   ===================================================== */
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
+/* ---- Colores y medidas (editá acá y cambia todo) ---- */
+:root {
+    --fondo: #0f172a;
+    --superficie: #1e293b;
+    --borde: #334155;
+    --texto: #f1f5f9;
+    --texto-suave: #94a3b8;
+    --acento: #facc15;
+    --radio: 14px;
+
+    /* Fácil: claro y cielo */
+    --facil-1: #fef9c3;
+    --facil-2: #7dd3fc;
+    --facil-borde: #38bdf8;
+    --facil-texto: #0c4a6e;
+
+    /* Difícil: bordó y negro */
+    --dificil-1: #7f1d1d;
+    --dificil-2: #0a0a0a;
+    --dificil-borde: #ef4444;
+    --dificil-texto: #fecaca;
+
+    --pixel: "Press Start 2P", ui-monospace, "Courier New", monospace;
 }
 
-html, body {
-    height: 100%;
-}
+/* ---- Base ---- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+[hidden] { display: none !important; }
 
 body {
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #1e2a3a;
-    color: #ffffff;
+    background: var(--fondo);
+    color: var(--texto);
+    font-family: var(--pixel);
+    overflow: hidden;
+    position: relative;
+    transition: background 0.6s ease;
 }
 
+/* Fondo que cambia según la opción resaltada */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    pointer-events: none;
+}
+body.previa-facil::before {
+    background: radial-gradient(circle at 30% 30%, var(--facil-2), transparent 70%),
+                linear-gradient(180deg, #1e3a5f, #0f172a);
+    opacity: 0.55;
+}
+body.previa-dificil::before {
+    background: radial-gradient(circle at 70% 70%, var(--dificil-1), transparent 70%),
+                linear-gradient(180deg, #000, #1a0505);
+    opacity: 0.9;
+}
+
+/* Grilla retro que se mueve (estilo arcade) */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.05) 2px, transparent 2px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.05) 2px, transparent 2px);
+    background-size: 48px 48px;
+    animation: grilla 6s linear infinite;
+    pointer-events: none;
+}
+@keyframes grilla {
+    from { background-position: 0 0; }
+    to   { background-position: 48px 48px; }
+}
+
+/* Líneas de pantalla vieja (scanlines) */
+#scanlines {
+    position: fixed;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.18) 0,
+        rgba(0, 0, 0, 0.18) 1px,
+        transparent 1px,
+        transparent 3px
+    );
+}
+
+/* Banderitas flotantes (las crea dificultad.js) */
+.flotante {
+    position: fixed;
+    bottom: -40px;
+    z-index: 1;
+    font-size: 1.6rem;
+    opacity: 0.5;
+    pointer-events: none;
+    animation: subir linear forwards;
+}
+@keyframes subir {
+    to { transform: translateY(-115vh) rotate(25deg); opacity: 0; }
+}
+
+/* ---- Título ---- */
 header {
-    padding: 30px 20px 10px;
+    position: relative;
+    z-index: 2;
     text-align: center;
+    padding: 36px 16px 8px;
 }
-
 h1 {
-    font-size: 2.2rem;
+    font-size: clamp(1rem, 3.2vw, 2rem);
+    line-height: 1.6;
+    color: var(--acento);
+    text-shadow: 4px 4px 0 #000;
+    animation: entrada-titulo 0.7s steps(8) both, parpadeo-titulo 3s ease-in-out 1s infinite;
+}
+@keyframes entrada-titulo {
+    from { transform: translateY(-30px); opacity: 0; }
+    to   { transform: translateY(0); opacity: 1; }
+}
+@keyframes parpadeo-titulo {
+    0%, 100% { text-shadow: 4px 4px 0 #000; }
+    50%      { text-shadow: 4px 4px 0 #000, 0 0 18px rgba(250, 204, 21, 0.7); }
 }
 
+/* ---- Menú ---- */
 main {
+    position: relative;
+    z-index: 2;
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: 20px 16px 110px;
 }
 
 .menu-dificultad {
     display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 100%;
-    max-width: 400px;
+    gap: clamp(18px, 4vw, 48px);
+    flex-wrap: wrap;
+    justify-content: center;
+    width: min(900px, 96vw);
 }
 
 .opcion {
-    padding: 22px;
+    position: relative;
+    flex: 1 1 300px;
+    max-width: 400px;
+    min-height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    font-size: 1.6rem;
-    background: #2f4158;
-    border: 4px solid transparent;
-    border-radius: 14px;
+    padding: 28px 20px;
+    font-size: clamp(1rem, 2.4vw, 1.5rem);
+    line-height: 1.7;
+    border: 6px solid var(--borde);
+    border-radius: var(--radio);
     cursor: pointer;
-    transition: transform 0.15s, background 0.15s, border-color 0.15s;
+    box-shadow: 8px 8px 0 #000;
+    transition: transform 0.2s steps(4), box-shadow 0.2s steps(4), filter 0.3s;
+    animation: aparecer 0.6s steps(6) both;
+    filter: saturate(0.7) brightness(0.8);
+}
+.opcion:nth-child(2) { animation-delay: 0.15s; }
+
+@keyframes aparecer {
+    from { transform: translateY(40px) scale(0.9); opacity: 0; }
+    to   { transform: translateY(0) scale(1); opacity: 1; }
 }
 
-.opcion:hover {
-    background: #3b516c;
+/* Cada dificultad con su ambiente */
+.opcion[data-href$="facil"] {
+    background: linear-gradient(160deg, var(--facil-1), var(--facil-2));
+    color: var(--facil-texto);
+    border-color: var(--facil-borde);
+}
+.opcion[data-href$="dificil"] {
+    background: linear-gradient(160deg, var(--dificil-1), var(--dificil-2));
+    color: var(--dificil-texto);
+    border-color: var(--dificil-borde);
 }
 
+/* Opción seleccionada */
 .opcion.seleccionada {
-    background: #3b516c;
-    border-color: #ffd54a;
-    transform: scale(1.05);
+    filter: none;
+    transform: translate(-4px, -8px) scale(1.05);
+    box-shadow: 14px 14px 0 #000;
+    animation: aparecer 0.6s steps(6) both, latido 1.2s ease-in-out 0.6s infinite;
+}
+.opcion[data-href$="facil"].seleccionada {
+    box-shadow: 14px 14px 0 #000, 0 0 34px rgba(125, 211, 252, 0.85);
+}
+.opcion[data-href$="dificil"].seleccionada {
+    box-shadow: 14px 14px 0 #000, 0 0 34px rgba(239, 68, 68, 0.9);
+    animation: aparecer 0.6s steps(6) both, temblor 0.35s linear 0.6s infinite;
+}
+@keyframes latido {
+    0%, 100% { transform: translate(-4px, -8px) scale(1.05); }
+    50%      { transform: translate(-4px, -8px) scale(1.09); }
+}
+@keyframes temblor {
+    0%, 100% { transform: translate(-4px, -8px) scale(1.05); }
+    25%      { transform: translate(-6px, -8px) scale(1.05); }
+    75%      { transform: translate(-2px, -6px) scale(1.05); }
 }
 
+/* Cursor ▶ parpadeante en la opción seleccionada */
+.opcion.seleccionada::before {
+    content: "▶";
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1rem;
+    animation: cursor 0.7s steps(2) infinite;
+}
+@keyframes cursor {
+    50% { opacity: 0; }
+}
+
+/* Salida al elegir */
+.opcion.elegida {
+    animation: elegida 0.3s steps(5) forwards;
+}
+@keyframes elegida {
+    to { transform: scale(1.2); opacity: 0; filter: brightness(2); }
+}
+body.saliendo main { animation: apagar 0.3s ease forwards; }
+@keyframes apagar { to { opacity: 0; } }
+
+/* ---- Pie con las teclas ---- */
 footer {
+    position: fixed;
+    z-index: 6;
+    left: 0;
+    right: 0;
+    bottom: 0;
     display: flex;
     justify-content: space-between;
-    padding: 15px 25px;
-    font-size: 0.95rem;
-    background: #16202c;
-    color: #b8c4d2;
+    flex-wrap: wrap;
+    gap: 12px 16px;
+    padding: 14px 24px;
+    background: var(--superficie);
+    border-top: 4px solid var(--borde);
+    color: var(--texto-suave);
+    font-size: 0.6rem;
+    line-height: 1.6;
+}
+footer .lado { display: flex; gap: 22px; flex-wrap: wrap; }
+
+/* ---- Celulares ---- */
+@media (max-width: 600px) {
+    .opcion { min-height: 150px; }
+    footer { font-size: 0.5rem; padding: 10px 12px; }
 }
 
-.lado {
-    display: flex;
-    gap: 20px;
+/* Si la persona prefiere menos movimiento */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
 }
