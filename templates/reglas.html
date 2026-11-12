@@ -12,19 +12,81 @@
     </header>
 
     <main>
-        <ol>
-            <li>Elegí un continente, o <b>Global</b> para jugar con todos.</li>
-            <li>Va a aparecer una <b>bandera</b> y cuatro nombres de países.</li>
-            <li>Movete entre las respuestas con las <b>flechas</b> y confirmá con <b>Enter</b>.</li>
-            <li>Tenés <b>60 segundos</b>. Cada acierto suma 1 punto.</li>
-            <li>Las banderas <b>no se repiten</b>: el juego termina cuando se acaba el tiempo o cuando pasaron todas.</li>
-        </ol>
-        <p class="nota">Atajos: Q = arriba izquierda, W = arriba derecha, A = abajo izquierda, S = abajo derecha. Con Esc volvés para atrás.</p>
+        <section class="bloque">
+            <h2>Cómo se juega</h2>
+            <ol class="pasos">
+                <li>Elegí la <b>dificultad</b> y un <b>continente</b>, o <b>Global</b> para jugar con todas las banderas.</li>
+                <li>Aparece una <b>bandera</b>: adiviná de qué país es.</li>
+                <li>Cada <b>acierto</b> suma <b>1 punto</b>. Fallar no resta.</li>
+                <li>Las banderas <b>no se repiten</b>. La partida termina cuando se acaba el <b>tiempo</b> o cuando pasaron <b>todas</b>.</li>
+                <li>En los últimos <b>10 segundos</b> el reloj se pone en alerta. ¡Apurate!</li>
+            </ol>
+        </section>
+
+        <section class="bloque">
+            <h2>Dos dificultades</h2>
+            <div class="modos">
+                <article class="modo facil">
+                    <h3>🙂 Fácil</h3>
+                    <ul>
+                        <li>Elegís entre <b>4 nombres</b></li>
+                        <li><b>60 segundos</b> por partida</li>
+                    </ul>
+                </article>
+                <article class="modo dificil">
+                    <h3>🔥 Difícil</h3>
+                    <ul>
+                        <li><b>Escribís</b> el nombre del país, sin mayúsculas</li>
+                        <li><b>40 segundos</b> por continente, <b>100</b> en Global</li>
+                        <li>Si fallás, te muestra cuál era</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <section class="bloque">
+            <h2>Teclas</h2>
+            <div class="modos">
+                <article class="modo facil">
+                    <h3>🙂 Fácil</h3>
+                    <dl>
+                        <dt><kbd>▲</kbd><kbd>▼</kbd><kbd>◀</kbd><kbd>▶</kbd></dt>
+                        <dd>Moverte entre las respuestas</dd>
+                        <dt><kbd>Enter</kbd></dt>
+                        <dd>Responder</dd>
+                        <dt><kbd>Q</kbd><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd></dt>
+                        <dd>Responder directo: Q arriba a la izquierda, W arriba a la derecha, A abajo a la izquierda, S abajo a la derecha</dd>
+                        <dt><kbd>Esc</kbd></dt>
+                        <dd>Volver</dd>
+                    </dl>
+                </article>
+                <article class="modo dificil">
+                    <h3>🔥 Difícil</h3>
+                    <dl>
+                        <dt><kbd>abc</kbd></dt>
+                        <dd>Escribir el nombre del país</dd>
+                        <dt><kbd>Enter</kbd></dt>
+                        <dd>Responder</dd>
+                        <dt><kbd>▲</kbd></dt>
+                        <dd>Ir al botón Volver</dd>
+                        <dt><kbd>▼</kbd></dt>
+                        <dd>Volver a la barra de texto</dd>
+                        <dt><kbd>Esc</kbd></dt>
+                        <dd>Salir</dd>
+                    </dl>
+                </article>
+            </div>
+        </section>
+
+        <p class="nota">💡 ¿Primera vez? Practicá en <b>Estudiar</b> antes de jugar.</p>
     </main>
 
     <footer>
         <div class="lado">
-            <span>Esc: Volver</span>
+            <span>▲ ▼ Desplazarte</span>
+        </div>
+        <div class="lado">
+            <span>⏎ Enter / Esc: Volver</span>
         </div>
     </footer>
 

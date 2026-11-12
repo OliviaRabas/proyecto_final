@@ -1,191 +1,230 @@
-/* ==========================================================
-   Continentes - Modo fácil
-   Mismo esqueleto que el modo difícil, pero claro y tranquilo:
-   cielo despejado, azul suave y esquinas redondeadas.
-   ========================================================== */
-
-@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@500;600&display=swap");
+/* ============================================================
+   continentes.css  ·  Guess the Flag  ·  MODO FÁCIL
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=MedievalSharp&display=swap');
 
 :root {
-    --cielo: #f3f9fd;
-    --cielo-2: #e1f0fa;
-    --sol: #fff3c4;
-    --panel: #ffffff;
-    --borde: #cfe3ee;
-    --azul-suave: #9ccbea;
-    --azul: #2b79b8;
-    --azul-claro: #5fb0e6;
-    --texto: #1f3a4d;
-    --texto-suave: #5b788b;
-
-    --display: "Bebas Neue", Impact, "Arial Narrow Bold", sans-serif;
-    --cuerpo: "Barlow Condensed", "Arial Narrow", "Segoe UI", sans-serif;
+  --mesa: #1f160d;
+  --papel: #f4ebd0;
+  --carta: #fbf3dc;
+  --tinta: #2c1d11;
+  --titulo: #f4ebd0;
+  --oro: #bfa15f;
+  --acento: #2f6b3a;
+  --borde: #4a3525;
+  --glow: rgba(255, 224, 150, .30);
 }
 
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-}
-
-[hidden] {
-    display: none !important;
-}
-
-html {
-    background: var(--cielo);
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-    margin: 0;
-    min-height: 100vh;
-    min-height: 100dvh;
-    display: flex;
-    flex-direction: column;
-    color: var(--texto);
-    font-family: var(--cuerpo);
-    font-size: 1.15rem;
-    background:
-        radial-gradient(ellipse 70% 40% at 50% 115%, var(--sol), transparent 70%),
-        radial-gradient(circle at 1px 1px, rgba(43, 121, 184, 0.07) 1px, transparent 1.5px) 0 0 / 22px 22px,
-        linear-gradient(180deg, var(--cielo), var(--cielo-2));
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: .8rem;
+  overflow: hidden;
+  padding: 1.5rem;
+  position: relative;
+  font-family: 'Cinzel', Georgia, serif;
+  color: var(--tinta);
+  background-color: var(--mesa);
+  background-image:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, .03) 0 2px, transparent 2px 11px),
+    radial-gradient(circle at 50% 40%, rgba(255, 255, 255, .06), rgba(0, 0, 0, .6) 100%);
 }
 
-/* ---------- Encabezado ---------- */
+/* Luz cálida que respira detrás del pergamino */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 50% 45%, var(--glow), transparent 62%);
+  pointer-events: none;
+  z-index: 0;
+  animation: luz 5s ease-in-out infinite alternate;
+}
 
+/* Viñeta de mapa antiguo + líneas retro muy suaves */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, .05) 0 1px, transparent 1px 3px);
+  box-shadow: inset 0 0 110px rgba(0, 0, 0, .8);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Iconos que suben flotando (los crea el JS) */
+.flotante {
+  position: fixed;
+  bottom: -3rem;
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation-name: subir;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+/* --- Título --- */
 header {
-    padding: 2.5rem 1.25rem 1rem;
-    text-align: center;
+  position: relative;
+  z-index: 2;
+  margin-top: .8rem;
+  text-align: center;
+  animation: caer .9s ease-out backwards;
+}
+header h1 {
+  font-family: 'MedievalSharp', Georgia, cursive;
+  font-size: clamp(1.6rem, 4.5vw, 2.8rem);
+  font-weight: 400;
+  letter-spacing: 2px;
+  color: var(--titulo);
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, .9), 0 0 22px var(--glow);
+  border-top: 2px solid var(--oro);
+  border-bottom: 2px solid var(--oro);
+  padding: .2rem 2rem;
 }
 
-h1 {
-    margin: 0 auto;
-    max-width: 18ch;
-    font-family: var(--display);
-    font-weight: 400;
-    font-size: clamp(2.4rem, 7vw, 4.2rem);
-    line-height: 1;
-    letter-spacing: 0.04em;
-    color: var(--azul);
-    text-shadow: 0 3px 0 rgba(156, 203, 234, 0.7);
-}
-
-header::after {
-    content: "";
-    display: block;
-    width: min(260px, 60%);
-    height: 4px;
-    margin: 1.25rem auto 0;
-    border-radius: 4px;
-    background: linear-gradient(90deg, transparent, var(--azul-claro), transparent);
-}
-
-/* ---------- Menú ---------- */
-
+/* --- Pergamino --- */
 main {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem 1.25rem;
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 640px;
+  padding: 2rem 1.75rem;
+  border-radius: 12px;
+  border: 4px solid var(--borde);
+  background-color: var(--papel);
+  background-image:
+    radial-gradient(ellipse at 50% 35%, rgba(255, 255, 255, .16), transparent 70%),
+    repeating-linear-gradient(45deg, rgba(90, 60, 25, .05) 0 2px, transparent 2px 7px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, .55), inset 0 0 50px rgba(60, 35, 10, .3);
+  animation: abrir 1s cubic-bezier(.16, 1, .3, 1) .1s backwards;
 }
+main::before, main::after { position: absolute; color: var(--borde); font-size: 1.1rem; }
+main::before { content: "✦"; top: 8px; left: 11px; }
+main::after  { content: "✦"; bottom: 8px; right: 11px; }
 
 .menu-continentes {
-    width: 100%;
-    max-width: 520px;
-    display: flex;
-    flex-direction: column;
-    gap: 0.7rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
 }
 
+/* --- Opciones --- */
 .opcion {
-    position: relative;
-    padding: 0.9rem 1.4rem 0.9rem 1.6rem;
-    font-family: var(--display);
-    font-size: clamp(1.5rem, 4.5vw, 1.9rem);
-    letter-spacing: 0.06em;
-    color: var(--texto-suave);
-    background: var(--panel);
-    border: 1px solid var(--borde);
-    border-left: 6px solid var(--azul-suave);
-    border-radius: 14px;
-    box-shadow: 0 2px 6px rgba(43, 121, 184, 0.08);
-    cursor: pointer;
-    user-select: none;
-    transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .3rem;
+  padding: 1.3rem .8rem;
+  text-align: center;
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--tinta);
+  background-color: var(--carta);
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, .16), rgba(0, 0, 0, .06));
+  border: 2px solid var(--borde);
+  border-radius: 6px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, .2), inset 0 1px 0 rgba(255, 255, 255, .3);
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform .25s cubic-bezier(.25, .8, .25, 1), box-shadow .25s, background-color .25s, border-color .25s;
+  animation: aparecer .6s cubic-bezier(.16, 1, .3, 1) backwards;
+}
+.opcion:nth-child(1) { animation-delay: .30s; }
+.opcion:nth-child(2) { animation-delay: .36s; }
+.opcion:nth-child(3) { animation-delay: .42s; }
+.opcion:nth-child(4) { animation-delay: .48s; }
+.opcion:nth-child(5) { animation-delay: .54s; }
+.opcion:nth-child(6) { animation-delay: .60s; }
+
+/* Marcador de selección */
+.opcion::before {
+  content: "▶";
+  position: absolute;
+  top: 50%;
+  left: .8rem;
+  translate: 0 -50%;
+  font-size: .85rem;
+  color: var(--acento);
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity .2s, transform .25s;
 }
 
-.opcion:hover {
-    color: var(--texto);
-    border-left-color: var(--azul-claro);
-}
-
-/* La opción elegida con el teclado */
 .opcion.seleccionada {
-    color: #fff;
-    transform: translateX(14px);
-    background: linear-gradient(90deg, var(--azul), var(--azul-claro));
-    border-color: var(--azul);
-    border-left-color: #ffd95e;
-    box-shadow: 0 8px 20px rgba(43, 121, 184, 0.3);
+  transform: translateY(-5px) scale(1.04);
+  border-color: var(--acento);
+  background-color: color-mix(in srgb, var(--acento) 20%, var(--carta));
+  box-shadow: 0 12px 22px rgba(0, 0, 0, .38), 0 0 18px color-mix(in srgb, var(--acento) 50%, transparent);
 }
+.opcion.seleccionada::before { opacity: 1; transform: translateX(0); }
 
-.opcion.seleccionada::before {
-    content: "▶";
-    position: absolute;
-    left: -1.5rem;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 0.9rem;
-    color: var(--azul);
-}
+/* Elegida: se "sella" y la página se desvanece antes de navegar */
+.opcion.elegida { transform: scale(.96); transition-duration: .12s; }
+body.saliendo main,
+body.saliendo header,
+body.saliendo footer { opacity: 0; transition: opacity .3s; }
+body.saliendo main { transform: scale(.97); transition: opacity .3s, transform .3s; }
 
-/* ---------- Pie con controles ---------- */
-
+/* --- Guía de teclado --- */
 footer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.5rem 2.5rem;
-    padding: 1rem 1.25rem 1.5rem;
-    border-top: 1px solid var(--borde);
-    background: rgba(255, 255, 255, 0.7);
-    font-size: 1.05rem;
-    color: var(--texto-suave);
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: .5rem 1.5rem;
+  padding: .8rem 1.5rem;
+  font-size: .95rem;
+  color: var(--titulo);
+  background: rgba(20, 12, 6, .72);
+  border: 1px solid var(--oro);
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+  animation: subirFooter .9s ease-out .3s backwards;
+}
+.lado { display: flex; flex-wrap: wrap; gap: .4rem 1.5rem; }
+.lado span { text-shadow: 1px 1px 2px #000; }
+
+/* --- Animaciones --- */
+@keyframes caer        { from { opacity: 0; transform: translateY(-30px); } }
+@keyframes subirFooter { from { opacity: 0; transform: translateY(30px); } }
+@keyframes abrir       { from { opacity: 0; transform: scale(.94); } }
+@keyframes aparecer    { from { opacity: 0; transform: translateY(16px) scale(.96); } }
+@keyframes luz         { from { opacity: .7; } to { opacity: 1; } }
+@keyframes subir {
+  0%   { opacity: 0; transform: translateY(0) rotate(0); }
+  12%  { opacity: .5; }
+  100% { opacity: 0; transform: translateY(-110vh) rotate(25deg); }
 }
 
-.lado {
-    display: flex;
-    gap: 1.5rem;
+/* --- Adaptación a Celular / Táctil --- */
+@media (max-width: 560px), (hover: none) and (pointer: coarse) {
+  body { padding: 1rem; justify-content: center; gap: 1.2rem; }
+  header { margin-top: 0; }
+  header h1 { font-size: clamp(1.5rem, 7vw, 2.3rem); padding: .2rem 1rem; }
+  main { padding: 1.5rem 1.1rem; }
+  .menu-continentes { gap: .8rem; }
+  .opcion { padding: 1.1rem .6rem; }
+  .opcion:active { transform: scale(0.98); background: color-mix(in srgb, var(--acento) 20%, var(--carta)); border-color: var(--acento); }
+  footer { display: none !important; }
 }
 
-/* ---------- Accesibilidad y adaptación ---------- */
-
-.opcion:focus-visible {
-    outline: 2px solid var(--azul);
-    outline-offset: 3px;
-}
-
-@media (max-width: 480px) {
-    header {
-        padding-top: 1.75rem;
-    }
-
-    .opcion.seleccionada {
-        transform: translateX(8px);
-    }
-
-    .opcion.seleccionada::before {
-        left: -1.2rem;
-    }
-
-    .lado {
-        gap: 1rem;
-    }
-}
-
+/* Respeta a quien pide menos movimiento */
 @media (prefers-reduced-motion: reduce) {
-    .opcion {
-        transition: none;
-    }
+  *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
 }

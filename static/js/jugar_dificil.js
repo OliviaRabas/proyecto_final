@@ -80,8 +80,16 @@ const SEGUNDOS_URGENTE = 10; // desde acá el reloj se pone rojo y parpadea
 
 // Suma o quita la clase "urgente" en la caja del tiempo (el <span> que contiene #tiempo)
 function marcarUrgencia(si) {
+    document.body.classList.toggle("urgente", si);   // también tiñe el borde de la pantalla
     const caja = elTiempo.parentElement;
     if (caja) caja.classList.toggle("urgente", si);
+}
+
+// Reinicia una animación CSS para poder repetirla (bandera nueva, punto, sacudón)
+function animar(el, clase) {
+    el.classList.remove(clase);
+    void el.offsetWidth;
+    el.classList.add(clase);
 }
 
 // Mostrar / ocultar con el atributo "hidden"
@@ -132,6 +140,7 @@ async function iniciar() {
     limpiarRespuesta();
     mostrarError("");
     mostrar(pantallaFinal, false);
+    pantallaJuego.classList.remove("golpe");
     mostrar(pantallaJuego, true);
 
     const cargada = await siguientePregunta(true);   // true = ronda nueva (se mezclan las banderas)
@@ -175,6 +184,7 @@ async function siguientePregunta(nueva = false) {
 
     mostrarError("");
     imgBandera.src = datos.imagen || rutaBandera(datos.bandera);
+    animar(imgBandera, "entra");
     limpiarRespuesta();
     bloqueado = false;
     if (!enVolver) inputRespuesta.focus();
@@ -208,8 +218,10 @@ async function responder() {
     if (datos.acierto) {
         puntos++;
         elPuntos.textContent = puntos;
+        animar(elPuntos.parentElement, "pop");
     } else {
         elResultado.textContent = "Era: " + datos.correcta;
+        animar(pantallaJuego, "golpe");   // sacudón al fallar
     }
 
     setTimeout(() => {

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elegí el modo de juego</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/continentes.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Modo de juego</h1>
+    </header>
+
+    <main>
+        <div class="menu-continentes">
+            <div class="opcion" data-href="/jugar">🚩 Adivinar banderas</div>
+            <div class="opcion" data-href="/higher-lower">📈 Higher or Lower</div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="lado">
+            <span>▲▼◀▶ Moverse</span>
+        </div>
+        <div class="lado">
+            <span>⏎ Enter: Aceptar</span>
+            <span>Esc: Volver</span>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/input.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/modo.js') }}"></script>
+</body>
+</html>

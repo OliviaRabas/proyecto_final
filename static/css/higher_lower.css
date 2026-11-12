@@ -1,0 +1,326 @@
+/* ============================================================
+   higher_lower.css  ·  Guess the Flag  ·  HIGHER OR LOWER
+   Misma base que el resto (mapa antiguo, pergamino sobre madera).
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=MedievalSharp&display=swap');
+
+:root {
+  --mesa: #1f160d;
+  --papel: #f4ebd0;
+  --carta: #fbf3dc;
+  --tinta: #2c1d11;
+  --titulo: #f4ebd0;
+  --oro: #bfa15f;
+  --acento: #2f6b3a;
+  --error: #a3281d;
+  --borde: #4a3525;
+  --glow: rgba(255, 224, 150, .30);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: .8rem;
+  overflow: hidden;
+  padding: 1.2rem;
+  position: relative;
+  font-family: 'Cinzel', Georgia, serif;
+  color: var(--tinta);
+  background-color: var(--mesa);
+  background-image:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, .03) 0 2px, transparent 2px 11px),
+    radial-gradient(circle at 50% 40%, rgba(255, 255, 255, .06), rgba(0, 0, 0, .6) 100%);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 50% 45%, var(--glow), transparent 62%);
+  pointer-events: none;
+  z-index: 0;
+  animation: luz 5s ease-in-out infinite alternate;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, .05) 0 1px, transparent 1px 3px);
+  box-shadow: inset 0 0 110px rgba(0, 0, 0, .8);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* --- Título --- */
+header {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  animation: caer .9s ease-out backwards;
+}
+header h1 {
+  font-family: 'MedievalSharp', Georgia, cursive;
+  font-size: clamp(1.4rem, 4vw, 2.4rem);
+  font-weight: 400;
+  letter-spacing: 2px;
+  color: var(--titulo);
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, .9), 0 0 22px var(--glow);
+  border-top: 2px solid var(--oro);
+  border-bottom: 2px solid var(--oro);
+  padding: .2rem 2rem;
+}
+
+/* --- Pergamino --- */
+main {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 900px;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: .6rem;
+  padding: 1.2rem 1.6rem;
+  border-radius: 12px;
+  border: 4px solid var(--borde);
+  background-color: var(--papel);
+  background-image:
+    radial-gradient(ellipse at 50% 35%, rgba(255, 255, 255, .16), transparent 70%),
+    repeating-linear-gradient(45deg, rgba(90, 60, 25, .05) 0 2px, transparent 2px 7px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, .55), inset 0 0 50px rgba(60, 35, 10, .3);
+  animation: abrir 1s cubic-bezier(.16, 1, .3, 1) .1s backwards;
+}
+
+/* --- Marcador --- */
+.marcador {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.marcador span {
+  padding: .3rem 1rem;
+  font-size: 1rem;
+  font-weight: 800;
+  background: rgba(74, 53, 37, .1);
+  border: 1px solid rgba(74, 53, 37, .35);
+  border-radius: 999px;
+}
+.marcador b { color: var(--acento); font-size: 1.3rem; margin-left: .2rem; }
+
+.pregunta {
+  text-align: center;
+  font-size: clamp(.9rem, 2.2vw, 1.05rem);
+  font-weight: 600;
+  letter-spacing: .5px;
+}
+
+/* --- Banderas --- */
+.versus {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
+  gap: 1.4rem;
+  min-height: 0;
+}
+
+/* Sello "VS" en el medio, encima de las dos tarjetas */
+.vs {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  z-index: 3;
+  width: 3.2rem;
+  height: 3.2rem;
+  display: grid;
+  place-items: center;
+  font-family: 'MedievalSharp', Georgia, cursive;
+  font-size: 1.3rem;
+  color: var(--titulo);
+  background: radial-gradient(circle at 35% 30%, #6b4a30, var(--borde));
+  border: 3px solid var(--oro);
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .5);
+}
+
+.tarjeta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .55rem;
+  padding: 1rem .8rem;
+  background-color: var(--carta);
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, .25), rgba(120, 80, 30, .08));
+  border: 2px solid var(--borde);
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, .25), inset 0 1px 0 rgba(255, 255, 255, .5);
+  transition: border-color .25s, box-shadow .25s, background-color .25s, transform .25s;
+}
+
+/* La bandera se ve entera, con su proporción real y sin fondo blanco */
+.tarjeta img {
+  display: block;
+  height: clamp(90px, 24vh, 200px);
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  box-shadow: 0 0 0 2px rgba(44, 29, 17, .75), 0 8px 16px rgba(0, 0, 0, .4);
+}
+
+.tarjeta .nombre {
+  font-size: clamp(1rem, 2.6vw, 1.45rem);
+  font-weight: 800;
+  text-align: center;
+  letter-spacing: 1px;
+  line-height: 1.15;
+}
+
+.tarjeta .poblacion {
+  padding: .25rem .9rem;
+  font-size: clamp(1rem, 2.6vw, 1.4rem);
+  font-weight: 800;
+  color: var(--acento);
+  background: rgba(47, 107, 58, .1);
+  border-radius: 999px;
+  min-height: 2rem;
+}
+.tarjeta .poblacion:empty { visibility: hidden; }
+
+.tarjeta.correcta {
+  border-color: var(--acento);
+  background-color: color-mix(in srgb, var(--acento) 22%, var(--carta));
+  box-shadow: 0 8px 18px rgba(0, 0, 0, .3), 0 0 22px color-mix(in srgb, var(--acento) 55%, transparent);
+  transform: scale(1.02);
+}
+.tarjeta.incorrecta {
+  border-color: var(--error);
+  background-color: color-mix(in srgb, var(--error) 22%, var(--carta));
+  box-shadow: 0 8px 18px rgba(0, 0, 0, .3), 0 0 22px color-mix(in srgb, var(--error) 55%, transparent);
+  transform: scale(.98);
+}
+.tarjeta.incorrecta .poblacion { color: var(--error); background: rgba(163, 40, 29, .1); }
+
+/* --- Botones --- */
+.botones {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.boton {
+  padding: .9rem .8rem;
+  text-align: center;
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--tinta);
+  background-color: var(--carta);
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, .2), rgba(0, 0, 0, .07));
+  border: 2px solid var(--borde);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, .25), inset 0 1px 0 rgba(255, 255, 255, .4);
+  cursor: pointer;
+  user-select: none;
+  transition: transform .25s cubic-bezier(.25, .8, .25, 1), box-shadow .25s, background-color .25s, border-color .25s;
+}
+
+/* Higher en verde, Lower en rojo */
+#btn-higher { --color: var(--acento); }
+#btn-lower  { --color: var(--error); }
+
+.boton.seleccionada {
+  transform: translateY(-4px) scale(1.04);
+  border-color: var(--color, var(--acento));
+  background-color: color-mix(in srgb, var(--color, var(--acento)) 22%, var(--carta));
+  box-shadow: 0 12px 22px rgba(0, 0, 0, .38), 0 0 18px color-mix(in srgb, var(--color, var(--acento)) 55%, transparent);
+}
+.botones.bloqueado .boton { opacity: .55; cursor: default; }
+
+.mensaje {
+  min-height: 1.4rem;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+.mensaje.ok { color: var(--acento); }
+.mensaje.mal { color: var(--error); }
+
+/* --- Pantalla de fin --- */
+.fin {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  border-radius: 8px;
+  background: rgba(244, 235, 208, .97);
+  text-align: center;
+}
+.fin h2 {
+  font-family: 'MedievalSharp', Georgia, cursive;
+  font-size: 2.4rem;
+  font-weight: 400;
+  color: var(--error);
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, .12);
+}
+.fin p { font-size: 1.3rem; }
+.fin .boton { min-width: 240px; }
+
+/* --- Guía de teclado --- */
+footer {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: .5rem 1.5rem;
+  padding: .7rem 1.5rem;
+  font-size: .95rem;
+  color: var(--titulo);
+  background: rgba(20, 12, 6, .72);
+  border: 1px solid var(--oro);
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+  animation: subirFooter .9s ease-out .3s backwards;
+}
+.lado { display: flex; flex-wrap: wrap; gap: .4rem 1.5rem; }
+.lado span { text-shadow: 1px 1px 2px #000; }
+
+@keyframes caer        { from { opacity: 0; transform: translateY(-30px); } }
+@keyframes subirFooter { from { opacity: 0; transform: translateY(30px); } }
+@keyframes abrir       { from { opacity: 0; transform: scale(.94); } }
+@keyframes luz         { from { opacity: .7; } to { opacity: 1; } }
+
+/* --- Pantallas chicas --- */
+@media (max-width: 560px) {
+  body { padding: .8rem; }
+  main { padding: 1rem .8rem; }
+  .versus { gap: .7rem; }
+  .vs { width: 2.4rem; height: 2.4rem; font-size: 1rem; border-width: 2px; }
+  .tarjeta { padding: .7rem .4rem; }
+  .tarjeta img { height: clamp(60px, 16vh, 120px); }
+  .botones { gap: .6rem; }
+  footer { font-size: .8rem; padding: .5rem 1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
+}

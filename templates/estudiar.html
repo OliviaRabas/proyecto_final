@@ -18,7 +18,7 @@
             <div class="banderas">
                 {% for p in c.paises %}
                 <div class="pais">
-                    <img src="{{ p.imagen }}" alt="Bandera de {{ p.nombre }}">
+                    <img src="{{ p.imagen }}" alt="Bandera de {{ p.nombre }}" loading="lazy" decoding="async">
                     <span>{{ p.nombre }}</span>
                 </div>
                 {% endfor %}

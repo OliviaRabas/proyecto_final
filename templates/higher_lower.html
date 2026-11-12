@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Higher or Lower</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/higher_lower.css') }}">
+</head>
+<body>
+    <header>
+        <h1>📈 Higher or Lower</h1>
+    </header>
+
+    <main>
+        <div class="marcador">
+            <span>Puntos: <b id="puntos">0</b></span>
+            <span>Récord: <b id="record">0</b></span>
+        </div>
+
+        <p class="pregunta">¿La población del país de la derecha es mayor o menor?</p>
+
+        <div class="versus">
+            <div class="tarjeta" id="tarjeta-izq">
+                <img id="img-izq" alt="">
+                <div class="nombre" id="nombre-izq">Cargando...</div>
+                <div class="poblacion" id="pob-izq"></div>
+            </div>
+
+            <div class="vs">VS</div>
+
+            <div class="tarjeta" id="tarjeta-der">
+                <img id="img-der" alt="">
+                <div class="nombre" id="nombre-der">Cargando...</div>
+                <div class="poblacion" id="pob-der">???</div>
+            </div>
+        </div>
+
+        <div class="botones">
+            <div class="boton" id="btn-higher">⬆ Higher</div>
+            <div class="boton" id="btn-lower">⬇ Lower</div>
+        </div>
+
+        <p class="mensaje" id="mensaje"></p>
+
+        <div class="fin" id="fin" style="display:none">
+            <h2>¡Fin del juego!</h2>
+            <p>Hiciste <b id="fin-puntos">0</b> puntos</p>
+            <div class="boton seleccionada" id="btn-reiniciar">🔁 Jugar de nuevo</div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="lado">
+            <span>◀▶ Elegir</span>
+        </div>
+        <div class="lado">
+            <span>⏎ Enter: Aceptar</span>
+            <span>Esc: Volver</span>
+        </div>
+    </footer>
+
+    <!-- Datos que manda Flask: nombre, código, población e imagen de cada país -->
+    <script id="datos-paises" type="application/json">{{ paises|tojson }}</script>
+
+    <script src="{{ url_for('static', filename='js/input.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/higher_lower.js') }}"></script>
+</body>
+</html>

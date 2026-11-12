@@ -43,6 +43,21 @@ if _sin_imagen:
 
 CONTINENTES_VALIDOS = ["america", "europa", "asia", "africa", "oceania", "global"]
 
+# Población aproximada (2024) por código de país, para Higher or Lower
+# (se usa si tu paises.json no trae el campo "poblacion")
+POBLACIONES = {
+    "ar": 46650000, "br": 212600000, "cl": 19800000, "uy": 3440000, "mx": 128500000,
+    "us": 340100000, "ca": 40100000, "co": 52100000, "pe": 34400000, "cu": 11000000,
+    "es": 48600000, "fr": 68200000, "it": 58900000, "de": 84500000, "gb": 68300000,
+    "pt": 10400000, "nl": 17900000, "gr": 10300000, "se": 10600000, "ru": 144200000,
+    "cn": 1409700000, "jp": 123800000, "in": 1450900000, "kr": 51700000, "sa": 35300000,
+    "tr": 85500000, "th": 71800000, "il": 9400000, "id": 283500000, "vn": 100300000,
+    "eg": 116500000, "za": 63000000, "ng": 232700000, "ma": 37800000, "ke": 56400000,
+    "dz": 46800000, "et": 132000000, "gh": 34100000, "sn": 18500000, "tn": 12200000,
+    "au": 26700000, "nz": 5300000, "fj": 936000, "pg": 10300000, "ws": 222000,
+    "to": 108000, "sb": 740000, "vu": 335000, "ki": 135000, "fm": 115000,
+}
+
 # Estado de la ronda actual (modo FÁCIL):
 #  - correcta: índice (0-3) de la respuesta correcta de la pregunta actual
 #  - continente: continente de la ronda
@@ -94,7 +109,31 @@ def index():
     return render_template("index.html")
 
 
-# NUEVO: pantalla para elegir la dificultad
+# NUEVO: pantalla para elegir el modo de juego (Adivinar banderas / Higher or Lower)
+@app.route("/modo")
+def elegir_modo():
+    return render_template("modo.html")
+
+
+# NUEVO: juego Higher or Lower de población
+@app.route("/higher-lower")
+def higher_lower():
+    lista = []
+    for p in PAISES:
+        poblacion = p.get("poblacion") or POBLACIONES.get(p["codigo"])
+        imagen = imagen_de(p)
+        if not poblacion or not imagen:
+            continue  # sin dato o sin bandera, no sirve para este juego
+        lista.append({
+            "nombre": p["nombre"],
+            "codigo": p["codigo"],
+            "poblacion": poblacion,
+            "imagen": imagen,
+        })
+    return render_template("higher_lower.html", paises=lista)
+
+
+# Pantalla para elegir la dificultad (modo Adivinar banderas)
 @app.route("/jugar")
 def elegir_dificultad():
     return render_template("dificultad.html")
@@ -106,7 +145,7 @@ def elegir_continente():
     return render_template("continentes.html")
 
 
-# NUEVO: modo difícil
+# Modo difícil
 @app.route("/jugar/dificil")
 def elegir_continente_dificil():
     return render_template("continentes_dificil.html")
@@ -215,7 +254,7 @@ def responder():
     })
 
 
-# ---------- API MODO DIFÍCIL (NUEVO) ----------
+# ---------- API MODO DIFÍCIL ----------
 
 @app.route("/api/dificil/pregunta/<continente>")
 def pregunta_dificil(continente):

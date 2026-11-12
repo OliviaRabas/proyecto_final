@@ -72,6 +72,21 @@ const ayudaFinal = porId("ayuda-final") || crear("p", pantallaFinal, "ayuda-fina
 
 // ---- Estado ----
 let tiempo = DURACION, puntos = 0, seleccion = 0, bloqueado = true, terminado = false, reloj = null;
+const SEGUNDOS_URGENTE = 10; // desde acá el reloj se pone ámbar y el borde de la pantalla late
+
+// Marca el reloj (y la pantalla) como "urgente" en los últimos segundos
+function marcarUrgencia(si) {
+    document.body.classList.toggle("urgente", si);
+    const caja = elTiempo.parentElement;
+    if (caja) caja.classList.toggle("urgente", si);
+}
+
+// Reinicia una animación CSS para poder repetirla (bandera nueva, punto, sacudón)
+function animar(el, clase) {
+    el.classList.remove(clase);
+    void el.offsetWidth;
+    el.classList.add(clase);
+}
 
 // Mostrar / ocultar con el atributo "hidden"
 function mostrar(el, si) {
@@ -107,6 +122,7 @@ async function iniciar() {
     seleccion = 0;
     elPuntos.textContent = puntos;
     elTiempo.textContent = tiempo;
+    marcarUrgencia(false);
     ops.forEach(op => { op.textContent = "..."; op.classList.remove("correcta", "incorrecta"); });
     mostrarError("");
     mostrar(pantallaFinal, false);
@@ -121,6 +137,7 @@ async function iniciar() {
 function tick() {
     tiempo--;
     elTiempo.textContent = tiempo;
+    marcarUrgencia(tiempo <= SEGUNDOS_URGENTE);
     if (tiempo <= 0) finalizar("tiempo");
 }
 
@@ -156,6 +173,7 @@ async function siguientePregunta(nueva = false) {
         mostrarError("Aviso: Flask tiene un app.py viejo, por eso las banderas pueden repetirse. Reinicialo con el nuevo.");
     }
     imgBandera.src = datos.imagen || rutaBandera(datos.bandera);
+    animar(imgBandera, "entra");
     datos.opciones.forEach((nombre, i) => {
         ops[i].textContent = nombre;
         ops[i].classList.remove("correcta", "incorrecta");
@@ -187,6 +205,7 @@ async function responder(i) {
     if (datos.acierto) {
         puntos++;
         elPuntos.textContent = puntos;
+        animar(elPuntos.parentElement, "pop");
     }
 
     setTimeout(() => {
@@ -199,6 +218,7 @@ function finalizar(motivo, detalle = "") {
     terminado = true;
     bloqueado = true;
     clearInterval(reloj);
+    marcarUrgencia(false);
 
     const titulos = {
         tiempo: "¡Se acabó el tiempo!",
@@ -259,4 +279,4 @@ imgBandera.addEventListener("error", () => {
 
 btnVolver.addEventListener("click", irAContinentes);
 
-iniciar();
+iniciar(); 

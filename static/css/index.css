@@ -27,6 +27,7 @@ body {
   color: var(--color-tinta);
   font-family: 'Cinzel', serif;
   height: 100vh;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -115,6 +116,7 @@ main::after {
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   position: relative;
   letter-spacing: 1px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Iconos o pequeñas viñetas tipográficas dentro de las opciones */
@@ -186,4 +188,43 @@ footer {
 @keyframes zoomIn {
   from { opacity: 0; transform: scale(0.95); }
   to { opacity: 1; transform: scale(1); }
+}
+
+/* --- ADAPTACIÓN A CELULAR --- */
+@media (max-width: 620px), (hover: none) and (pointer: coarse) {
+  body {
+    padding: 1.2rem 1rem;
+    justify-content: center;
+    gap: 1.8rem;
+  }
+
+  header {
+    margin-top: 0;
+  }
+
+  header h1 {
+    font-size: clamp(2rem, 8vw, 2.6rem);
+    padding: 0.25rem 1.2rem;
+  }
+
+  main {
+    padding: 2rem 1.3rem;
+    gap: 1.1rem;
+  }
+
+  .opcion {
+    padding: 1rem 1.2rem;
+    font-size: 1.1rem;
+  }
+
+  .opcion:active {
+    transform: scale(0.98);
+    background: linear-gradient(to bottom, #e3c896, #c5a059);
+    border-color: var(--color-acento-rojo);
+  }
+
+  /* Oculta el footer de indicaciones de teclado en celular */
+  footer {
+    display: none !important;
+  }
 }
