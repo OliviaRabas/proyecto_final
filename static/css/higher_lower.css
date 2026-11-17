@@ -1,6 +1,8 @@
 /* ============================================================
    higher_lower.css  ·  Guess the Flag  ·  HIGHER OR LOWER
-   Misma base que el resto (mapa antiguo, pergamino sobre madera).
+   Mismo estilo de siempre (mapa antiguo, pergamino sobre madera),
+   ahora fluido: celulares, tablets y computadoras.
+   La página scrollea si hace falta; nada queda amontonado.
    ============================================================ */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=MedievalSharp&display=swap');
 
@@ -15,20 +17,25 @@
   --error: #a3281d;
   --borde: #4a3525;
   --glow: rgba(255, 224, 150, .30);
+
+  /* Espaciado y tamaños fluidos: crecen con la pantalla */
+  --gap: clamp(.6rem, 2.2vw, 1.4rem);
+  --pad: clamp(.8rem, 3vw, 1.6rem);
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+html { -webkit-text-size-adjust: 100%; }
 
 body {
-  height: 100vh;
-  height: 100dvh;
+  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
-  gap: .8rem;
-  overflow: hidden;
-  padding: 1.2rem;
+  gap: var(--gap);
+  overflow-x: hidden;
+  padding: max(clamp(.6rem, 2.5vw, 1.2rem), env(safe-area-inset-top)) max(clamp(.6rem, 2.5vw, 1.2rem), env(safe-area-inset-right)) max(clamp(.6rem, 2.5vw, 1.2rem), env(safe-area-inset-bottom)) max(clamp(.6rem, 2.5vw, 1.2rem), env(safe-area-inset-left));
   position: relative;
   font-family: 'Cinzel', Georgia, serif;
   color: var(--tinta);
@@ -36,6 +43,7 @@ body {
   background-image:
     repeating-linear-gradient(90deg, rgba(255, 255, 255, .03) 0 2px, transparent 2px 11px),
     radial-gradient(circle at 50% 40%, rgba(255, 255, 255, .06), rgba(0, 0, 0, .6) 100%);
+  background-attachment: fixed;
 }
 
 body::before {
@@ -62,19 +70,20 @@ body::after {
 header {
   position: relative;
   z-index: 2;
+  max-width: 100%;
   text-align: center;
   animation: caer .9s ease-out backwards;
 }
 header h1 {
   font-family: 'MedievalSharp', Georgia, cursive;
-  font-size: clamp(1.4rem, 4vw, 2.4rem);
+  font-size: clamp(1.3rem, 4.5vw, 2.4rem);
   font-weight: 400;
-  letter-spacing: 2px;
+  letter-spacing: clamp(1px, .3vw, 2px);
   color: var(--titulo);
   text-shadow: 3px 3px 6px rgba(0, 0, 0, .9), 0 0 22px var(--glow);
   border-top: 2px solid var(--oro);
   border-bottom: 2px solid var(--oro);
-  padding: .2rem 2rem;
+  padding: .2rem clamp(.8rem, 4vw, 2rem);
 }
 
 /* --- Pergamino --- */
@@ -83,13 +92,12 @@ main {
   z-index: 2;
   width: 100%;
   max-width: 900px;
-  flex: 1;
-  min-height: 0;
+  flex: 1 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  gap: .6rem;
-  padding: 1.2rem 1.6rem;
+  gap: var(--gap);
+  padding: var(--pad);
   border-radius: 12px;
   border: 4px solid var(--borde);
   background-color: var(--papel);
@@ -104,33 +112,34 @@ main {
 .marcador {
   display: flex;
   justify-content: space-between;
-  gap: 1rem;
+  gap: .6rem;
 }
 .marcador span {
-  padding: .3rem 1rem;
-  font-size: 1rem;
+  padding: .3rem clamp(.6rem, 2.5vw, 1rem);
+  font-size: clamp(.85rem, 2.6vw, 1rem);
   font-weight: 800;
+  white-space: nowrap;
   background: rgba(74, 53, 37, .1);
   border: 1px solid rgba(74, 53, 37, .35);
   border-radius: 999px;
 }
-.marcador b { color: var(--acento); font-size: 1.3rem; margin-left: .2rem; }
+.marcador b { color: var(--acento); font-size: 1.25em; margin-left: .2rem; }
 
 .pregunta {
   text-align: center;
-  font-size: clamp(.9rem, 2.2vw, 1.05rem);
+  font-size: clamp(.85rem, 2.6vw, 1.05rem);
   font-weight: 600;
   letter-spacing: .5px;
+  line-height: 1.35;
 }
 
 /* --- Banderas --- */
 .versus {
   position: relative;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   align-items: stretch;
-  gap: 1.4rem;
-  min-height: 0;
+  gap: var(--gap);
 }
 
 /* Sello "VS" en el medio, encima de las dos tarjetas */
@@ -140,12 +149,12 @@ main {
   left: 50%;
   translate: -50% -50%;
   z-index: 3;
-  width: 3.2rem;
-  height: 3.2rem;
+  width: clamp(2.2rem, 7vw, 3.2rem);
+  height: clamp(2.2rem, 7vw, 3.2rem);
   display: grid;
   place-items: center;
   font-family: 'MedievalSharp', Georgia, cursive;
-  font-size: 1.3rem;
+  font-size: clamp(.95rem, 3vw, 1.3rem);
   color: var(--titulo);
   background: radial-gradient(circle at 35% 30%, #6b4a30, var(--borde));
   border: 3px solid var(--oro);
@@ -154,12 +163,13 @@ main {
 }
 
 .tarjeta {
+  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: .55rem;
-  padding: 1rem .8rem;
+  gap: clamp(.35rem, 1.5vw, .6rem);
+  padding: clamp(.6rem, 2vw, 1rem) clamp(.4rem, 1.5vw, .8rem);
   background-color: var(--carta);
   background-image: linear-gradient(to bottom, rgba(255, 255, 255, .25), rgba(120, 80, 30, .08));
   border: 2px solid var(--borde);
@@ -168,11 +178,11 @@ main {
   transition: border-color .25s, box-shadow .25s, background-color .25s, transform .25s;
 }
 
-/* La bandera se ve entera, con su proporción real y sin fondo blanco */
+/* La bandera se ve entera, con su proporción real. Alto fluido según el ancho y el alto de pantalla */
 .tarjeta img {
   display: block;
-  height: clamp(90px, 24vh, 200px);
   width: auto;
+  height: clamp(64px, min(18vh, 26vw), 200px);
   max-width: 100%;
   object-fit: contain;
   border: none;
@@ -182,21 +192,26 @@ main {
 }
 
 .tarjeta .nombre {
-  font-size: clamp(1rem, 2.6vw, 1.45rem);
+  max-width: 100%;
+  font-size: clamp(.9rem, 2.8vw, 1.45rem);
   font-weight: 800;
   text-align: center;
-  letter-spacing: 1px;
+  letter-spacing: .5px;
   line-height: 1.15;
+  overflow-wrap: anywhere;
 }
 
 .tarjeta .poblacion {
-  padding: .25rem .9rem;
-  font-size: clamp(1rem, 2.6vw, 1.4rem);
+  max-width: 100%;
+  padding: .25rem clamp(.4rem, 2vw, .9rem);
+  font-size: clamp(.8rem, 2.8vw, 1.4rem);
   font-weight: 800;
+  text-align: center;
+  line-height: 1.2;
   color: var(--acento);
   background: rgba(47, 107, 58, .1);
   border-radius: 999px;
-  min-height: 2rem;
+  min-height: 1.9rem;
 }
 .tarjeta .poblacion:empty { visibility: hidden; }
 
@@ -214,17 +229,21 @@ main {
 }
 .tarjeta.incorrecta .poblacion { color: var(--error); background: rgba(163, 40, 29, .1); }
 
-/* --- Botones --- */
+/* --- Botones (también sirven para tocar con el dedo) --- */
 .botones {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: clamp(.6rem, 2vw, 1rem);
 }
 
 .boton {
-  padding: .9rem .8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.2rem;               /* zona táctil cómoda */
+  padding: .7rem .8rem;
   text-align: center;
-  font-size: clamp(1.1rem, 3vw, 1.5rem);
+  font-size: clamp(1rem, 3.4vw, 1.5rem);
   font-weight: 800;
   letter-spacing: 1px;
   color: var(--tinta);
@@ -235,6 +254,7 @@ main {
   box-shadow: 0 4px 6px rgba(0, 0, 0, .25), inset 0 1px 0 rgba(255, 255, 255, .4);
   cursor: pointer;
   user-select: none;
+  touch-action: manipulation;
   transition: transform .25s cubic-bezier(.25, .8, .25, 1), box-shadow .25s, background-color .25s, border-color .25s;
 }
 
@@ -249,38 +269,134 @@ main {
   box-shadow: 0 12px 22px rgba(0, 0, 0, .38), 0 0 18px color-mix(in srgb, var(--color, var(--acento)) 55%, transparent);
 }
 .botones.bloqueado .boton { opacity: .55; cursor: default; }
+.boton.bloqueado { opacity: .55; pointer-events: none; }
 
 .mensaje {
   min-height: 1.4rem;
   text-align: center;
-  font-size: 1.1rem;
+  font-size: clamp(.95rem, 3vw, 1.1rem);
   font-weight: 800;
 }
 .mensaje.ok { color: var(--acento); }
 .mensaje.mal { color: var(--error); }
 
-/* --- Pantalla de fin --- */
+/* --- Pantalla de fin: cubre toda la pantalla y scrollea sola si el contenido no entra --- */
 .fin {
-  position: absolute;
+  position: fixed;
   inset: 0;
-  z-index: 5;
+  z-index: 8;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  gap: 1rem;
-  border-radius: 8px;
-  background: rgba(244, 235, 208, .97);
+  justify-content: flex-start;
+  gap: clamp(.7rem, 2.5vw, 1rem);
+  padding: max(1rem, env(safe-area-inset-top)) 1rem max(1rem, env(safe-area-inset-bottom));
+  overflow-y: auto;
+  overscroll-behavior: contain;
   text-align: center;
+  background-color: var(--papel);
+  background-image:
+    radial-gradient(ellipse at 50% 35%, rgba(255, 255, 255, .22), transparent 70%),
+    repeating-linear-gradient(45deg, rgba(90, 60, 25, .05) 0 2px, transparent 2px 7px);
 }
+.fin > * { flex-shrink: 0; }
 .fin h2 {
+  margin-top: auto;                 /* centra el bloque si sobra lugar; si no, scrollea */
   font-family: 'MedievalSharp', Georgia, cursive;
-  font-size: 2.4rem;
+  font-size: clamp(1.8rem, 7vw, 2.6rem);
   font-weight: 400;
   color: var(--error);
   text-shadow: 2px 2px 0 rgba(0, 0, 0, .12);
 }
-.fin p { font-size: 1.3rem; }
-.fin .boton { min-width: 240px; }
+.fin p { font-size: clamp(1.05rem, 3.5vw, 1.3rem); }
+.fin .boton { width: min(320px, 100%); }
+.fin > .boton { margin-bottom: auto; }
+
+/* --- Ranking: franja con los 3 mejores, arriba del juego --- */
+.ranking-mini {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .4rem .6rem;
+}
+.ranking-mini span {
+  max-width: 100%;
+  padding: .2rem .7rem;
+  font-size: clamp(.75rem, 2.4vw, .9rem);
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: rgba(191, 161, 95, .18);
+  border: 1px solid var(--oro);
+  border-radius: 999px;
+}
+
+/* Cuadro para escribir el nombre */
+.nuevo-record {
+  width: min(340px, 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .6rem;
+  padding: .9rem;
+  background: color-mix(in srgb, var(--oro) 22%, var(--carta));
+  border: 2px solid var(--oro);
+  border-radius: 10px;
+}
+.nuevo-record .felicitacion { font-size: clamp(.95rem, 3vw, 1.05rem) !important; font-weight: 800; line-height: 1.3; }
+.nuevo-record input {
+  width: 100%;
+  padding: .65rem .8rem;
+  font: 800 1.2rem 'Cinzel', Georgia, serif;   /* 16px o más: evita el zoom automático en iPhone */
+  text-align: center;
+  color: var(--tinta);
+  background: #fff;
+  border: 2px solid var(--borde);
+  border-radius: 6px;
+  outline: none;
+}
+.nuevo-record input:focus {
+  border-color: var(--acento);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--acento) 50%, transparent);
+}
+.nuevo-record .boton { width: 100%; min-width: 0; padding: .6rem; font-size: 1.1rem; }
+.msg-nombre { min-height: 1.1rem; font-size: .85rem !important; font-weight: 800; color: var(--error); }
+
+/* Tabla del ranking en la pantalla de fin */
+.ranking-caja {
+  width: min(340px, 100%);
+  padding: .7rem .9rem;
+  background: var(--carta);
+  border: 2px solid var(--borde);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, .2);
+}
+.ranking-caja h3 {
+  margin-bottom: .4rem;
+  text-align: center;
+  font-family: 'MedievalSharp', Georgia, cursive;
+  font-size: 1.3rem;
+  font-weight: 400;
+}
+.ranking-lista { list-style: none; display: grid; gap: .3rem; }
+.ranking-lista li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .3rem .7rem;
+  font-size: clamp(.95rem, 3vw, 1.05rem);
+  font-weight: 800;
+  background: rgba(74, 53, 37, .08);
+  border-radius: 6px;
+}
+.ranking-lista li > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: left; }
+.ranking-lista li b { color: var(--acento); }
+/* El puesto que acaba de conseguir el jugador */
+.ranking-lista li.nuevo {
+  background: color-mix(in srgb, var(--oro) 40%, var(--carta));
+  outline: 2px solid var(--oro);
+  animation: destello 1s ease-in-out 3;
+}
 
 /* --- Guía de teclado --- */
 footer {
@@ -292,8 +408,8 @@ footer {
   flex-wrap: wrap;
   justify-content: space-between;
   gap: .5rem 1.5rem;
-  padding: .7rem 1.5rem;
-  font-size: .95rem;
+  padding: .7rem clamp(.8rem, 3vw, 1.5rem);
+  font-size: clamp(.8rem, 2.4vw, .95rem);
   color: var(--titulo);
   background: rgba(20, 12, 6, .72);
   border: 1px solid var(--oro);
@@ -308,17 +424,45 @@ footer {
 @keyframes subirFooter { from { opacity: 0; transform: translateY(30px); } }
 @keyframes abrir       { from { opacity: 0; transform: scale(.94); } }
 @keyframes luz         { from { opacity: .7; } to { opacity: 1; } }
+@keyframes destello    { 50% { transform: scale(1.04); } }
 
-/* --- Pantallas chicas --- */
+/* ============================================================
+   ADAPTACIONES POR DISPOSITIVO
+   ============================================================ */
+
+/* Pantallas grandes: pergamino un poco más ancho */
+@media (min-width: 1200px) {
+  main, footer { max-width: 1000px; }
+}
+
+/* Celulares: bordes más finos y menos relleno */
 @media (max-width: 560px) {
-  body { padding: .8rem; }
-  main { padding: 1rem .8rem; }
-  .versus { gap: .7rem; }
-  .vs { width: 2.4rem; height: 2.4rem; font-size: 1rem; border-width: 2px; }
-  .tarjeta { padding: .7rem .4rem; }
-  .tarjeta img { height: clamp(60px, 16vh, 120px); }
-  .botones { gap: .6rem; }
-  footer { font-size: .8rem; padding: .5rem 1rem; }
+  main { border-width: 3px; border-radius: 10px; }
+  .vs { border-width: 2px; }
+  .tarjeta { border-radius: 8px; }
+  .ranking-mini span { padding: .15rem .5rem; }
+}
+
+/* Celulares muy angostos: el "VS" se achica para no tapar las banderas */
+@media (max-width: 360px) {
+  .marcador span { padding: .25rem .6rem; }
+  .vs { width: 2rem; height: 2rem; font-size: .8rem; }
+}
+
+/* Celulares y tablets (sin mouse ni teclado): la guía de teclas no sirve */
+@media (hover: none) and (pointer: coarse) {
+  footer { display: none; }
+}
+
+/* Celulares apaisados / pantallas bajas: se compacta todo para no scrollear de más */
+@media (max-height: 560px) {
+  header h1 { font-size: 1.2rem; padding: .1rem 1rem; }
+  main { gap: .5rem; padding: .6rem 1rem; }
+  .tarjeta img { height: clamp(48px, 20vh, 110px); }
+  .tarjeta { gap: .25rem; padding: .4rem; }
+  .boton { min-height: 2.6rem; padding: .4rem; }
+  .pregunta { font-size: .8rem; }
+  footer { padding: .4rem 1rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

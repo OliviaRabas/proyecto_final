@@ -17,6 +17,9 @@
             <span>Récord: <b id="record">0</b></span>
         </div>
 
+        <!-- Los 3 mejores puntajes (se llena desde el JS con los datos del servidor) -->
+        <div class="ranking-mini" id="ranking-mini"></div>
+
         <p class="pregunta">¿La población del país de la derecha es mayor o menor?</p>
 
         <div class="versus">
@@ -45,6 +48,21 @@
         <div class="fin" id="fin" style="display:none">
             <h2>¡Fin del juego!</h2>
             <p>Hiciste <b id="fin-puntos">0</b> puntos</p>
+
+            <!-- Solo aparece si el puntaje entra en el ranking -->
+            <div class="nuevo-record" id="nuevo-record" style="display:none">
+                <p class="felicitacion">🏆 ¡Entraste al ranking! Escribí tu nombre:</p>
+                <input type="text" id="input-nombre" maxlength="12" placeholder="Tu nombre"
+                       autocomplete="off" autocapitalize="words" spellcheck="false">
+                <div class="boton" id="btn-guardar">💾 Guardar</div>
+                <p class="msg-nombre" id="msg-nombre"></p>
+            </div>
+
+            <div class="ranking-caja">
+                <h3>🏆 Ranking</h3>
+                <ol class="ranking-lista" id="lista-ranking"></ol>
+            </div>
+
             <div class="boton seleccionada" id="btn-reiniciar">🔁 Jugar de nuevo</div>
         </div>
     </main>

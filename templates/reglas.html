@@ -78,7 +78,42 @@
             </div>
         </section>
 
-        <p class="nota">💡 ¿Primera vez? Practicá en <b>Estudiar</b> antes de jugar.</p>
+        <section class="bloque">
+            <h2>📈 Higher or Lower</h2>
+            <ol class="pasos">
+                <li>Ves <b>dos banderas</b>. La de la izquierda muestra su <b>población</b>; la de la derecha dice <b>???</b>.</li>
+                <li>Decidí si la población del país de la <b>derecha</b> es <b>mayor</b> (Higher) o <b>menor</b> (Lower) que la de la izquierda.</li>
+                <li>Cada <b>acierto</b> suma <b>1 punto</b> y aparece una pareja nueva. Si las poblaciones son iguales, cuenta como acierto.</li>
+                <li>Al primer <b>error</b> termina la partida. Los países <b>no se repiten</b> hasta que hayan salido todos.</li>
+                <li>Si tu puntaje supera a uno de los <b>3 mejores</b>, escribí tu <b>nombre</b> (hasta 12 letras) y queda guardado en el <b>ranking</b>, aunque cierres la página.</li>
+            </ol>
+
+            <div class="modos">
+                <article class="modo facil">
+                    <h3>🏆 Ranking</h3>
+                    <ul>
+                        <li>Solo entran los <b>3 mejores</b> puntajes</li>
+                        <li>Para entrar tenés que <b>superar</b> a alguno, un empate no alcanza</li>
+                        <li>Tu <b>récord</b> es el puntaje más alto del ranking</li>
+                    </ul>
+                </article>
+                <article class="modo facil">
+                    <h3>⌨️ Teclas</h3>
+                    <dl>
+                        <dt><kbd>▲</kbd><kbd>◀</kbd></dt>
+                        <dd>Elegir Higher</dd>
+                        <dt><kbd>▼</kbd><kbd>▶</kbd></dt>
+                        <dd>Elegir Lower</dd>
+                        <dt><kbd>Enter</kbd></dt>
+                        <dd>Responder, guardar tu nombre o jugar de nuevo</dd>
+                        <dt><kbd>Esc</kbd></dt>
+                        <dd>Volver</dd>
+                    </dl>
+                </article>
+            </div>
+        </section>
+
+        <p class="nota">💡 ¿Primera vez? Practicá en <a class="enlace" href="{{ url_for('estudiar') }}">Estudiar</a> antes de jugar.</p>
     </main>
 
     <footer>
@@ -86,7 +121,7 @@
             <span>▲ ▼ Desplazarte</span>
         </div>
         <div class="lado">
-            <span>⏎ Enter / Esc: Volver</span>
+            <span>📱 Si estás en el celular, se usa normalmente</span>
         </div>
     </footer>
 

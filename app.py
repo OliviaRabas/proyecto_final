@@ -2,6 +2,7 @@
 import json
 import os
 import random
+import threading
 import unicodedata
 
 from flask import Flask, jsonify, request, render_template, abort
@@ -70,6 +71,45 @@ def formatear_habitantes(n):
     if n is None:
         return "Sin dato"
     return f"{n:,}".replace(",", ".") + " hab."
+
+
+# ---------- RANKING DE HIGHER OR LOWER ----------
+# Se guarda en data/ranking.json: sigue ahí aunque se cierre la página o se apague el servidor.
+RUTA_RANKING = os.path.join(BASE, "data", "ranking.json")
+MAX_RANKING = 3          # cantidad de puestos
+MAX_NOMBRE = 12          # largo máximo del nombre
+_candado = threading.Lock()   # evita que dos jugadores escriban el archivo a la vez
+
+
+def leer_ranking():
+    """Devuelve la lista [{nombre, puntos}, ...] ordenada de mayor a menor puntaje."""
+    try:
+        with open(RUTA_RANKING, encoding="utf-8") as f:
+            datos = json.load(f)
+    except (FileNotFoundError, ValueError):
+        return []
+    limpio = []
+    if isinstance(datos, list):
+        for d in datos:
+            try:
+                limpio.append({"nombre": str(d["nombre"])[:MAX_NOMBRE], "puntos": int(d["puntos"])})
+            except (KeyError, TypeError, ValueError):
+                continue
+    limpio.sort(key=lambda x: -x["puntos"])      # el orden es estable: ante empate, queda primero el más antiguo
+    return limpio[:MAX_RANKING]
+
+
+def guardar_ranking(lista):
+    # Se escribe en un archivo temporal y después se reemplaza: así nunca queda a medio escribir
+    tmp = RUTA_RANKING + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(lista, f, ensure_ascii=False, indent=2)
+    os.replace(tmp, RUTA_RANKING)
+
+
+def entra_en_ranking(puntos, ranking):
+    """Entra si hay un puesto libre o si supera al último del ranking."""
+    return puntos > 0 and (len(ranking) < MAX_RANKING or puntos > ranking[-1]["puntos"])
 
 
 # Estado de la ronda actual (modo FÁCIL):
@@ -147,6 +187,39 @@ def higher_lower():
             "imagen": imagen,
         })
     return render_template("higher_lower.html", paises=lista)
+
+
+# ---------- API RANKING (Higher or Lower) ----------
+
+@app.route("/api/ranking", methods=["GET"])
+def api_ranking():
+    with _candado:
+        return jsonify(leer_ranking())
+
+
+@app.route("/api/ranking", methods=["POST"])
+def api_ranking_guardar():
+    datos = request.get_json(silent=True) or {}
+    try:
+        puntos = int(datos.get("puntos", 0))
+    except (TypeError, ValueError):
+        return jsonify({"error": "Puntaje inválido"}), 400
+
+    # Nombre limpio: sin espacios de más y con largo máximo
+    nombre = " ".join(str(datos.get("nombre", "")).split())[:MAX_NOMBRE] or "Anónimo"
+
+    with _candado:
+        ranking = leer_ranking()
+        if not entra_en_ranking(puntos, ranking):
+            return jsonify({"entro": False, "ranking": ranking})
+
+        nuevo = {"nombre": nombre, "puntos": puntos}
+        ranking.append(nuevo)
+        ranking.sort(key=lambda x: -x["puntos"])
+        ranking = ranking[:MAX_RANKING]
+        guardar_ranking(ranking)
+        posicion = next((i for i, r in enumerate(ranking) if r is nuevo), None)
+        return jsonify({"entro": True, "posicion": posicion, "ranking": ranking})
 
 
 # Pantalla para elegir la dificultad (modo Adivinar banderas)
