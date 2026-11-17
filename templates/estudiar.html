@@ -20,11 +20,27 @@
                 <div class="pais">
                     <img src="{{ p.imagen }}" alt="Bandera de {{ p.nombre }}" loading="lazy" decoding="async">
                     <span>{{ p.nombre }}</span>
+                    <small class="habitantes">{{ p.habitantes }}</small>
                 </div>
                 {% endfor %}
             </div>
         </section>
         {% endfor %}
+
+        <!-- Ranking de todos los países por habitantes (se muestra con la pastilla "Ordenar por habitantes") -->
+        <section class="ranking" id="ranking">
+            <h2>👥 Por habitantes</h2>
+            <div class="banderas">
+                {% for p in ranking %}
+                <div class="pais">
+                    <b class="puesto">#{{ loop.index }}</b>
+                    <img src="{{ p.imagen }}" alt="Bandera de {{ p.nombre }}" loading="lazy" decoding="async">
+                    <span>{{ p.nombre }}</span>
+                    <small class="habitantes">{{ p.habitantes }}</small>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
     </main>
 
     <footer>
@@ -33,6 +49,7 @@
             <span>◀ ▶ Cambiar de continente</span>
         </div>
         <div class="lado">
+            <span>⏎ Enter: Ordenar por habitantes</span>
             <span>Esc: Volver</span>
         </div>
     </footer>

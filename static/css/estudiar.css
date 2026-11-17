@@ -73,7 +73,7 @@ header h1 {
   text-shadow: 3px 3px 6px rgba(0, 0, 0, .9), 0 0 22px var(--glow);
 }
 
-/* Lo crea el JS: una pastilla por continente */
+/* Lo crea el JS: una pastilla por continente + la de ordenar */
 #indice {
   position: relative;
   display: flex;
@@ -110,6 +110,13 @@ header h1 {
   transform: scale(1.06);
 }
 
+/* Pastilla "Ordenar por habitantes": se distingue de las de continentes */
+.chip.orden {
+  margin-left: .5rem;
+  border-color: var(--oro);
+  background: rgba(191, 161, 95, .18);
+}
+
 /* Barra de progreso de lectura (la crea el JS) */
 #progreso {
   position: absolute;
@@ -144,10 +151,10 @@ main::before { content: "✦"; top: 8px; left: 11px; }
 main::after  { content: "✦"; bottom: 8px; right: 11px; }
 
 /* --- Continentes --- */
-.continente { scroll-margin-top: calc(var(--alto-header, 110px) + 12px); }
+.continente, .ranking { scroll-margin-top: calc(var(--alto-header, 110px) + 12px); }
 .continente + .continente { margin-top: 2.2rem; }
 
-.continente h2 {
+.continente h2, .ranking h2 {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -158,7 +165,8 @@ main::after  { content: "✦"; bottom: 8px; right: 11px; }
   letter-spacing: 1px;
   color: var(--tinta);
 }
-.continente h2::before, .continente h2::after {
+.continente h2::before, .continente h2::after,
+.ranking h2::before, .ranking h2::after {
   content: "";
   flex: 1;
   height: 3px;
@@ -169,16 +177,21 @@ main::after  { content: "✦"; bottom: 8px; right: 11px; }
 .banderas {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
+  align-items: start;            /* solo crece la tarjeta tocada, no toda la fila */
   gap: .9rem;
 }
 
 .pais {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: .4rem;
   padding: .5rem .4rem .6rem;
   text-align: center;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
   background-color: var(--carta);
   background-image: linear-gradient(to bottom, rgba(255, 255, 255, .16), rgba(0, 0, 0, .06));
   border: 2px solid var(--borde);
@@ -209,6 +222,45 @@ main::after  { content: "✦"; bottom: 8px; right: 11px; }
   font-weight: 800;
   line-height: 1.2;
 }
+
+/* Habitantes: ocultos hasta tocar la tarjeta (la bandera no se mueve) */
+.habitantes {
+  display: none;
+  padding: .15rem .55rem;
+  font-size: .72rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--acento);
+  background: rgba(47, 107, 58, .12);
+  border-radius: 999px;
+}
+.pais.abierta { border-color: var(--acento); }
+.pais.abierta .habitantes {
+  display: block;
+  animation: aparecerNum .25s ease-out;
+}
+
+/* Número de puesto en el ranking */
+.puesto {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  z-index: 1;
+  padding: .05rem .4rem;
+  font-size: .72rem;
+  color: var(--titulo);
+  background: var(--borde);
+  border: 1px solid var(--oro);
+  border-radius: 999px;
+}
+
+/* Ranking: oculto por defecto; con "modo-ranking" reemplaza a los continentes */
+.ranking { display: none; }
+body.modo-ranking .ranking { display: block; }
+body.modo-ranking .continente { display: none; }
+body.modo-ranking .chip:not(.orden) { display: none; }
+.ranking .pais { cursor: default; }
+.ranking .habitantes { display: block; }
 
 /* Las banderas aparecen al llegar a la pantalla (el JS agrega "js" y "visto") */
 .js .pais { opacity: 0; transform: translateY(12px); }
@@ -244,6 +296,7 @@ footer {
 @keyframes caer        { from { opacity: 0; transform: translateY(-30px); } }
 @keyframes subirFooter { from { opacity: 0; transform: translateY(30px); } }
 @keyframes abrir       { from { opacity: 0; transform: scale(.96); } }
+@keyframes aparecerNum { from { opacity: 0; transform: translateY(-4px); } }
 
 /* --- Adaptación a celular y pantallas táctiles --- */
 @media (max-width: 620px), (hover: none) and (pointer: coarse) {

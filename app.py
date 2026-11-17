@@ -43,7 +43,7 @@ if _sin_imagen:
 
 CONTINENTES_VALIDOS = ["america", "europa", "asia", "africa", "oceania", "global"]
 
-# Población aproximada (2024) por código de país, para Higher or Lower
+# Población aproximada (2024) por código de país
 # (se usa si tu paises.json no trae el campo "poblacion")
 POBLACIONES = {
     "ar": 46650000, "br": 212600000, "cl": 19800000, "uy": 3440000, "mx": 128500000,
@@ -57,6 +57,20 @@ POBLACIONES = {
     "au": 26700000, "nz": 5300000, "fj": 936000, "pg": 10300000, "ws": 222000,
     "to": 108000, "sb": 740000, "vu": 335000, "ki": 135000, "fm": 115000,
 }
+
+
+def poblacion_de(pais):
+    """Habitantes del país (de paises.json o, si falta, del diccionario). None si no hay dato."""
+    valor = pais.get("poblacion") or POBLACIONES.get(str(pais["codigo"]).lower())
+    return int(valor) if valor else None
+
+
+def formatear_habitantes(n):
+    """46650000 -> '46.650.000 hab.'"""
+    if n is None:
+        return "Sin dato"
+    return f"{n:,}".replace(",", ".") + " hab."
+
 
 # Estado de la ronda actual (modo FÁCIL):
 #  - correcta: índice (0-3) de la respuesta correcta de la pregunta actual
@@ -109,24 +123,26 @@ def index():
     return render_template("index.html")
 
 
-# NUEVO: pantalla para elegir el modo de juego (Adivinar banderas / Higher or Lower)
+# Pantalla para elegir el modo de juego (Adivinar banderas / Higher or Lower)
 @app.route("/modo")
 def elegir_modo():
     return render_template("modo.html")
 
 
-# NUEVO: juego Higher or Lower de población
+# Juego Higher or Lower de población
 @app.route("/higher-lower")
 def higher_lower():
     lista = []
     for p in PAISES:
-        poblacion = p.get("poblacion") or POBLACIONES.get(p["codigo"])
-        imagen = imagen_de(p)
-        if not poblacion or not imagen:
-            continue  # sin dato o sin bandera, no sirve para este juego
+        codigo = str(p["codigo"]).lower()
+        poblacion = poblacion_de(p)
+        if not poblacion:
+            continue  # sin dato de población no se puede comparar
+        # Bandera local si existe; si no, la misma fuente que usa descargar_banderas.py
+        imagen = imagen_de(p) or f"https://flagcdn.com/{codigo}.svg"
         lista.append({
             "nombre": p["nombre"],
-            "codigo": p["codigo"],
+            "codigo": codigo,
             "poblacion": poblacion,
             "imagen": imagen,
         })
@@ -175,21 +191,35 @@ CONTINENTES_ESTUDIAR = [
 ]
 
 
+def _tarjeta_estudiar(p):
+    """Datos de un país para la pantalla de estudiar."""
+    poblacion = poblacion_de(p)
+    return {
+        "nombre": p["nombre"],
+        "imagen": imagen_de(p) or f"/static/flags/{p['codigo']}.svg",
+        "poblacion": poblacion,
+        "habitantes": formatear_habitantes(poblacion),
+    }
+
+
 @app.route("/estudiar")
 def estudiar():
     continentes = []
+    todos = []
     for clave, emoji, nombre in CONTINENTES_ESTUDIAR:
         paises = sorted(paises_de(clave), key=lambda p: _sin_tildes(p["nombre"]))
+        tarjetas = [_tarjeta_estudiar(p) for p in paises]
+        todos.extend(tarjetas)
         continentes.append({
             "id": clave,
             "emoji": emoji,
             "nombre": nombre,
-            "paises": [
-                {"nombre": p["nombre"], "imagen": imagen_de(p) or f"/static/flags/{p['codigo']}.svg"}
-                for p in paises
-            ],
+            "paises": tarjetas,
         })
-    return render_template("estudiar.html", continentes=continentes)
+
+    # Ranking: de más a menos habitantes (los que no tienen dato quedan al final)
+    ranking = sorted(todos, key=lambda t: t["poblacion"] or 0, reverse=True)
+    return render_template("estudiar.html", continentes=continentes, ranking=ranking)
 
 
 @app.route("/reglas")

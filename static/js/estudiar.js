@@ -18,6 +18,14 @@ const chips = secciones.map((s, i) => {
     indice.appendChild(chip);
     return chip;
 });
+
+// Pastilla extra: ordenar todos los países por habitantes
+const chipOrden = document.createElement("div");
+chipOrden.className = "chip orden";
+chipOrden.textContent = "👥 Ordenar por habitantes";
+chipOrden.addEventListener("click", alternarOrden);
+indice.appendChild(chipOrden);
+
 const progreso = document.createElement("div");
 progreso.id = "progreso";
 header.append(indice, progreso);
@@ -26,6 +34,29 @@ header.append(indice, progreso);
 function medirHeader() {
     document.documentElement.style.setProperty("--alto-header", header.offsetHeight + "px");
 }
+
+// ---- Modo ranking (todos los países de más a menos habitantes) ----
+function enRanking() {
+    return document.body.classList.contains("modo-ranking");
+}
+
+function alternarOrden() {
+    const activo = document.body.classList.toggle("modo-ranking");
+    chipOrden.classList.toggle("activo", activo);
+    chipOrden.textContent = activo ? "🌍 Ver por continentes" : "👥 Ordenar por habitantes";
+    medirHeader();
+    window.scrollTo({ top: 0, behavior: "auto" });
+    ultima = -1;          // fuerza a recalcular la pastilla activa al volver a continentes
+    actualizar();
+}
+
+// ---- Tocar una tarjeta: muestra / oculta los habitantes (la bandera no se va) ----
+document.addEventListener("click", (e) => {
+    const carta = e.target.closest(".pais");
+    if (!carta) return;
+    if (carta.closest(".ranking")) return;   // en el ranking los números ya se ven siempre
+    carta.classList.toggle("abierta");
+});
 
 // ---- Continente actual ----
 // Es el último cuyo título ya pasó por debajo del encabezado
@@ -42,6 +73,7 @@ function seccionActual() {
 }
 
 function irA(indiceSeccion) {
+    if (enRanking()) return;
     if (indiceSeccion < 0 || indiceSeccion >= secciones.length) return;
     secciones[indiceSeccion].scrollIntoView({ behavior: SUAVE, block: "start" });
 }
@@ -56,6 +88,8 @@ function actualizar() {
     const total = document.documentElement.scrollHeight - window.innerHeight;
     const avance = total > 0 ? Math.min(1, window.scrollY / total) : 0;
     progreso.style.transform = "scaleX(" + avance + ")";
+
+    if (enRanking()) return;   // en el ranking no hay continentes que marcar
 
     const a = seccionActual();
     if (a === ultima) return;
@@ -91,6 +125,7 @@ if ("IntersectionObserver" in window) {
 // ---- Teclado (viene de input.js) ----
 alEntrada((evento) => {
     if (evento === "volver")    window.location = "/";
+    if (evento === "aceptar")   alternarOrden();
     if (evento === "abajo")     window.scrollBy({ top: PASO, behavior: SUAVE });
     if (evento === "arriba")    window.scrollBy({ top: -PASO, behavior: SUAVE });
     if (evento === "derecha")   irA(seccionActual() + 1);

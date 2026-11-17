@@ -1,18 +1,18 @@
 // ---- Ajustes ----
-// Ruta de respaldo de las banderas (normalmente el servidor ya manda la ruta correcta)
 const rutaBandera = (codigo) => `/static/flags/${codigo}.svg`;
-const DURACION = 60;        // segundos de la partida
-const FEEDBACK_MS = 700;    // cuánto se muestra verde/rojo antes de pasar a la próxima
+const DURACION = 60;        // segundos de la partida en modo fácil
+const FEEDBACK_MS = 900;    // cuánto se muestra verde/rojo antes de pasar a la próxima
+const SEGUNDOS_URGENTE = 10;
 
-const continente = document.body.dataset.continente;
+// El continente sale del <body data-continente="..."> o, si falta, de la URL (/jugar/america)
+const continente = document.body.dataset.continente || location.pathname.split("/").filter(Boolean).pop();
 
 // ---- Elementos de la página ----
-// Si falta alguno en jugar.html, el juego NO se rompe: se crea solo (o se ignora).
 const porId = (id) => document.getElementById(id);
 
 function faltante(id) {
     console.warn("Falta el elemento #" + id + " en jugar.html");
-    return document.createElement("span");   // elemento suelto, no se ve en la página
+    return document.createElement("span");
 }
 
 function crear(tag, padre, id, texto = "") {
@@ -25,14 +25,13 @@ function crear(tag, padre, id, texto = "") {
 
 const principal = document.querySelector("main") || document.body;
 
-// Imprescindibles (vienen en jugar.html)
-const ops = [0, 1, 2, 3].map(i => porId("op" + i) || faltante("op" + i));
 const imgBandera = porId("bandera") || faltante("bandera");
 const elTiempo = porId("tiempo") || faltante("tiempo");
 const elPuntos = porId("puntos") || faltante("puntos");
 const pantallaJuego = porId("pantalla-juego") || faltante("pantalla-juego");
+const botones = [0, 1, 2, 3].map((i) => porId("op" + i) || faltante("op" + i));
 
-// Botón volver (arriba a la izquierda)
+// Botón volver
 let btnVolver = porId("volver");
 if (!btnVolver) {
     btnVolver = document.createElement("div");
@@ -41,15 +40,13 @@ if (!btnVolver) {
     document.body.insertBefore(btnVolver, document.body.firstChild);
 }
 
-// Cartel de error / aviso
+// Cartel de error
 let elError = porId("error");
 if (!elError) {
     elError = document.createElement("p");
     elError.id = "error";
     elError.hidden = true;
-    const header = document.querySelector("header");
-    if (header && header.parentNode) header.parentNode.insertBefore(elError, header.nextSibling);
-    else document.body.insertBefore(elError, document.body.firstChild);
+    document.body.insertBefore(elError, document.body.firstChild);
 }
 
 // Pantalla final
@@ -71,26 +68,23 @@ if (!puntajeFinal) {
 const ayudaFinal = porId("ayuda-final") || crear("p", pantallaFinal, "ayuda-final");
 
 // ---- Estado ----
-let tiempo = DURACION, puntos = 0, seleccion = 0, bloqueado = true, terminado = false, reloj = null;
-const SEGUNDOS_URGENTE = 10; // desde acá el reloj se pone ámbar y el borde de la pantalla late
+let tiempo = DURACION, puntos = 0, bloqueado = true, terminado = false, reloj = null;
+let seleccion = 0;        // opción marcada con el teclado (0 a 3)
+let enVolver = false;     // true = el botón Volver está marcado
 
-// Marca el reloj (y la pantalla) como "urgente" en los últimos segundos
-function marcarUrgencia(si) {
-    document.body.classList.toggle("urgente", si);
-    const caja = elTiempo.parentElement;
-    if (caja) caja.classList.toggle("urgente", si);
-}
+// ---- Utilidades ----
+function mostrar(el, si) { el.hidden = !si; }
 
-// Reinicia una animación CSS para poder repetirla (bandera nueva, punto, sacudón)
 function animar(el, clase) {
     el.classList.remove(clase);
     void el.offsetWidth;
     el.classList.add(clase);
 }
 
-// Mostrar / ocultar con el atributo "hidden"
-function mostrar(el, si) {
-    el.hidden = !si;
+function marcarUrgencia(si) {
+    document.body.classList.toggle("urgente", si);
+    const caja = elTiempo.parentElement;
+    if (caja) caja.classList.toggle("urgente", si);
 }
 
 function mostrarError(texto) {
@@ -103,13 +97,17 @@ window.addEventListener("error", (ev) => mostrarError("Error en el juego: " + ev
 window.addEventListener("unhandledrejection", (ev) => mostrarError("Error en el juego: " + ev.reason));
 
 function resaltar() {
-    ops.forEach((op, i) => op.classList.toggle("seleccionada", i === seleccion));
-    btnVolver.classList.toggle("seleccionada", seleccion === -1);
+    btnVolver.classList.toggle("seleccionada", enVolver);
+    botones.forEach((b, i) => b.classList.toggle("seleccionada", !enVolver && !bloqueado && i === seleccion));
 }
 
 function irAContinentes() {
     clearInterval(reloj);
     window.location = "/jugar/facil";
+}
+
+function limpiarBotones() {
+    botones.forEach((b) => b.classList.remove("correcta", "incorrecta"));
 }
 
 // ---- Partida ----
@@ -120,14 +118,14 @@ async function iniciar() {
     puntos = 0;
     tiempo = DURACION;
     seleccion = 0;
+    enVolver = false;
     elPuntos.textContent = puntos;
     elTiempo.textContent = tiempo;
     marcarUrgencia(false);
-    ops.forEach(op => { op.textContent = "..."; op.classList.remove("correcta", "incorrecta"); });
+    limpiarBotones();
     mostrarError("");
     mostrar(pantallaFinal, false);
     mostrar(pantallaJuego, true);
-    resaltar();
 
     const cargada = await siguientePregunta(true);   // true = ronda nueva (se mezclan las banderas)
     if (!cargada) return;
@@ -155,57 +153,58 @@ async function siguientePregunta(nueva = false) {
     try {
         datos = await r.json();
     } catch (e) {
-        finalizar("error", `El servidor respondió ${r.status} en ${url}. Reiniciá Flask con el app.py nuevo.`);
+        finalizar("error", `El servidor respondió ${r.status} en ${url}.`);
         return false;
     }
-    if (terminado) return false;                       // el tiempo se acabó mientras cargaba
+    if (terminado) return false;
     if (!r.ok) {
         finalizar("error", datos.error || `El servidor respondió ${r.status}.`);
         return false;
     }
-    if (datos.fin) {                                   // pasaron todas las banderas
+    if (datos.fin) {
         finalizar("banderas");
         return false;
     }
 
     mostrarError("");
-    if (datos.restantes === undefined) {
-        mostrarError("Aviso: Flask tiene un app.py viejo, por eso las banderas pueden repetirse. Reinicialo con el nuevo.");
-    }
     imgBandera.src = datos.imagen || rutaBandera(datos.bandera);
     animar(imgBandera, "entra");
-    datos.opciones.forEach((nombre, i) => {
-        ops[i].textContent = nombre;
-        ops[i].classList.remove("correcta", "incorrecta");
-    });
+    limpiarBotones();
+    datos.opciones.forEach((nombre, i) => { if (botones[i]) botones[i].textContent = nombre; });
+    seleccion = 0;
     bloqueado = false;
+    resaltar();
     return true;
 }
 
-async function responder(i) {
+async function responder(indice) {
     if (bloqueado || terminado) return;
     bloqueado = true;
+    resaltar();
 
     let datos;
     try {
         const r = await fetch("/api/responder", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ opcion: i })
+            body: JSON.stringify({ opcion: indice })
         });
         datos = await r.json();
+        if (!r.ok) throw new Error(datos.error || ("Error " + r.status));
     } catch (e) {
         finalizar("error", "No se pudo enviar la respuesta (" + e.message + ").");
         return;
     }
     if (terminado) return;
 
-    ops[i].classList.add(datos.acierto ? "correcta" : "incorrecta");
-    if (!datos.acierto) ops[datos.correcta].classList.add("correcta");
     if (datos.acierto) {
+        botones[indice].classList.add("correcta");
         puntos++;
         elPuntos.textContent = puntos;
         animar(elPuntos.parentElement, "pop");
+    } else {
+        botones[indice].classList.add("incorrecta");
+        if (botones[datos.correcta]) botones[datos.correcta].classList.add("correcta");
     }
 
     setTimeout(() => {
@@ -233,50 +232,76 @@ function finalizar(motivo, detalle = "") {
     ayudaFinal.textContent = esError
         ? "⏎ Enter: reintentar  ·  Esc: volver"
         : "⏎ Enter: jugar de nuevo  ·  Esc: elegir continente";
-    if (esError) console.error(detalle);
 
     mostrarError("");
+    enVolver = false;
+    btnVolver.classList.remove("seleccionada");
     mostrar(pantallaJuego, false);
     mostrar(pantallaFinal, true);
-    seleccion = 0;
-    resaltar();
 }
 
 // ---- Teclado ----
-alEntrada((evento) => {
-    // Pantalla final: Enter = jugar de nuevo / reintentar, Esc = elegir continente
+let ultimoEvento = "";
+let ultimaHora = 0;
+
+function manejar(evento) {
+    // Evita procesar dos veces la misma tecla (teclado directo + input.js)
+    const ahora = Date.now();
+    if (evento === ultimoEvento && ahora - ultimaHora < 80) return;
+    ultimoEvento = evento;
+    ultimaHora = ahora;
+
     if (terminado) {
         if (evento === "aceptar") iniciar();
         if (evento === "volver") irAContinentes();
         return;
     }
-
     if (evento === "volver") return irAContinentes();
 
-    // Atajos Q W / A S (responden directo)
-    if (evento.startsWith("directo")) return responder(Number(evento.slice(7)));
+    // Q W A S: responden directo
+    const atajos = { q: 0, w: 1, a: 2, s: 3 };
+    if (evento in atajos) return responder(atajos[evento]);
 
-    // seleccion: -1 = botón volver, 0..3 = respuestas (grilla 2x2)
-    if (seleccion === -1) {
-        if (evento === "abajo")   seleccion = 0;
-        if (evento === "aceptar") return irAContinentes();
-    } else {
-        const col = seleccion % 2;
-        const fila = Math.floor(seleccion / 2);
-        if (evento === "izquierda" && col === 1) seleccion -= 1;
-        if (evento === "derecha"   && col === 0) seleccion += 1;
-        if (evento === "abajo"     && fila === 0) seleccion += 2;
-        if (evento === "arriba")   seleccion = fila === 1 ? seleccion - 2 : -1;
-        if (evento === "aceptar")  responder(seleccion);
+    if (bloqueado) return;
+
+    if (evento === "aceptar") {
+        if (enVolver) return irAContinentes();
+        return responder(seleccion);
+    }
+
+    // Las 4 opciones están en una grilla de 2x2
+    if (enVolver) {
+        if (evento === "abajo") { enVolver = false; resaltar(); }
+        return;
+    }
+    if (evento === "izquierda" && seleccion % 2 === 1) seleccion--;
+    if (evento === "derecha" && seleccion % 2 === 0) seleccion++;
+    if (evento === "abajo" && seleccion < 2) seleccion += 2;
+    if (evento === "arriba") {
+        if (seleccion >= 2) seleccion -= 2;
+        else enVolver = true;                 // desde la fila de arriba se sube al botón Volver
     }
     resaltar();
+}
+
+// 1) Letras Q W A S directo desde el teclado
+document.addEventListener("keydown", (e) => {
+    const k = e.key.toLowerCase();
+    if ("qwas".includes(k) && k.length === 1) manejar(k);
 });
 
-// Si la imagen no carga, avisamos pero el juego sigue andando
+// 2) Flechas, Enter y Esc vienen de input.js
+if (typeof alEntrada === "function") alEntrada(manejar);
+
+// ---- Mouse / touch ----
+botones.forEach((b, i) => {
+    b.addEventListener("click", () => { seleccion = i; responder(i); });
+});
+btnVolver.addEventListener("click", irAContinentes);
+
+// Si la imagen no carga, avisamos pero el juego sigue
 imgBandera.addEventListener("error", () => {
     mostrarError("No se encontró la imagen de la bandera (" + imgBandera.getAttribute("src") + ").");
 });
 
-btnVolver.addEventListener("click", irAContinentes);
-
-iniciar(); 
+iniciar();
