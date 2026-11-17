@@ -1,11 +1,13 @@
 <div align="center">
 
-# 🚩 Guess the Flag
+# 🚩 GUESS THE FLAG
 
-### Aprendé geografía jugando, casi sin darte cuenta
+### 🌍 Aprendé geografía jugando, casi sin darte cuenta
 
-Descubrí las banderas, los países y la población de los 5 continentes
-con juegos rápidos, un modo estudio y un desafío para expertos.
+Descubrí las banderas, los países y la población de los cinco continentes
+a través de diferentes modos de juego, desafíos y actividades de estudio.
+
+<br>
 
 ![Python](https://img.shields.io/badge/Python-3.x-3776AB?logo=python&logoColor=white)
 ![Flask](https://img.shields.io/badge/Flask-Backend-000000?logo=flask&logoColor=white)
@@ -13,7 +15,13 @@ con juegos rápidos, un modo estudio y un desafío para expertos.
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
 
-![Preview](./docs/capturas/inicio.png)
+<br>
+
+<img src="./docs/capturas/inicio.png" width="85%" alt="Menú principal de Guess the Flag">
+
+<br>
+
+*✦ Cinco continentes, cincuenta países y muchas banderas por descubrir ✦*
 
 </div>
 
@@ -21,70 +29,112 @@ con juegos rápidos, un modo estudio y un desafío para expertos.
 
 ## 📌 Sobre el proyecto
 
-**Guess the Flag** es un juego web para aprender las banderas del mundo.
-Incluye los 10 países más conocidos de cada continente (50 en total), con su bandera y su cantidad de habitantes.
+> 🌍 **Aprender geografía nunca fue tan divertido.**
 
-Nació como un simple "adiviná la bandera" y fue creciendo hasta tener varios modos de juego, un modo estudio y una interfaz pensada para jugar tanto con **teclado en la PC** como con **el dedo en el celular**.
+**Guess the Flag** es un juego web educativo que permite aprender y reconocer las banderas de diferentes países, mientras se descubren datos geográficos y de población.
 
-## ✨ Características
+Incluye los **10 países más conocidos de cada continente**, con un total de 50 países, sus respectivas banderas y su cantidad de habitantes.
 
-- 🎮 **4 formas de jugar o estudiar:** Adivinar banderas (fácil y difícil), Higher or Lower y Estudiar.
-- 🌍 **5 continentes + modo Global**, con 50 países.
-- ⌨️ **Se maneja entero con el teclado** (flechas, Enter y Esc), y también con mouse o touch.
-- 📱 **Diseño responsive:** se adapta a celulares y tablets.
-- 🏳️ **Sin repetir:** las banderas salen en orden aleatorio y no se repiten dentro de una partida.
-- 🎨 **Estética de mapa antiguo**, con una versión clara (fácil) y una oscura (difícil).
+Lo que comenzó como un simple juego de adivinar banderas fue creciendo hasta convertirse en una aplicación con diferentes modalidades, un modo de estudio y una interfaz pensada para jugar tanto con **teclado en la computadora** como con **controles táctiles en celulares y tablets**.
+
+## ✨ Características principales
+
+| | Característica | Descripción |
+|:---:|---|---|
+| 🎮 | **4 modalidades** | Adivinar banderas (fácil y difícil), Higher or Lower y Estudiar. |
+| 🌍 | **5 continentes + Global** | 50 países disponibles. |
+| ⌨️ | **Controles por teclado** | Navegación mediante flechas, Enter y Esc. |
+| 📱 | **Diseño responsive** | Adaptado a computadoras, tablets y celulares. |
+| 🏳️ | **Banderas aleatorias** | No se repiten durante una misma partida. |
+| 📊 | **Datos de población** | Comparación y consulta de la cantidad de habitantes de cada país. |
+| 🎨 | **Diseño visual** | Estética inspirada en mapas antiguos, con una versión clara y otra oscura. |
 
 ## 🕹️ Modos de juego
 
-| Modo | Cómo se juega |
-|---|---|
-| 🙂 **Adivinar banderas: Fácil** | Ves una bandera y elegís entre 4 opciones. |
-| 🔥 **Adivinar banderas: Difícil** | Ves una bandera y escribís el nombre del país, contra reloj (40 s por continente, 100 s en Global). |
-| 📈 **Higher or Lower** | Dos banderas: ¿el país de la derecha tiene **más** o **menos** habitantes que el de la izquierda? Cada acierto suma un punto. |
-| 📖 **Estudiar** | Todas las banderas por continente. Tocá una tarjeta para ver sus habitantes, o **ordená los 50 países por población**. |
+Cada modalidad propone una forma diferente de aprender geografía y poner a prueba tus conocimientos.
+
+| Modo | ¿Cómo se juega? |
+|:---|:---|
+| 🙂 **Adivinar banderas: Fácil** | Aparece una bandera y tenés que elegir el país correcto entre cuatro opciones. |
+| 🔥 **Adivinar banderas: Difícil** | Tenés que escribir el nombre del país correspondiente a la bandera antes de que termine el tiempo. |
+| 📈 **Higher or Lower** | Se muestran dos banderas y tenés que adivinar si el país de la derecha tiene más o menos habitantes que el de la izquierda. Cada acierto suma un punto. |
+| 📖 **Estudiar** | Explorá las banderas de cada continente, consultá la población de los países y ordenalos según su cantidad de habitantes. |
 
 ## ⌨️ Controles
 
+El juego permite navegar por los menús y responder preguntas utilizando el teclado, además del mouse o la pantalla táctil.
+
 | Tecla | Acción |
-|---|---|
-| ▲ ▼ ◀ ▶ | Moverse por los menús y elegir opciones |
-| Enter | Aceptar |
-| Esc | Volver |
-| Q W A S | Elegir respuesta en el modo fácil (solo PC) |
+|:---:|---|
+| ▲ ▼ ◀ ▶ | Moverse por los menús y seleccionar opciones. |
+| Enter | Confirmar una selección. |
+| Esc | Volver a la pantalla anterior. |
+| Q W A S | Elegir respuestas en el modo fácil (solo PC). |
 
 ## 📸 Capturas de pantalla
+
+Un recorrido visual por las diferentes pantallas y modalidades de Guess the Flag.
+
+### 🏠 Menú y dificultades
 
 | Menú principal | Modo fácil | Modo difícil |
 |:---:|:---:|:---:|
 | ![Menú](./docs/capturas/inicio.png) | ![Fácil](./docs/capturas/facil.png) | ![Difícil](./docs/capturas/dificil.png) |
 
-| Higher or Lower | Estudiar | En el celular |
+### 🌎 Modos de juego
+
+| Higher or Lower | Estudiar | Versión móvil |
 |:---:|:---:|:---:|
-| ![HL](./docs/capturas/higher-lower.png) | ![Estudiar](./docs/capturas/estudiar.png) | ![Celu](./docs/capturas/celu.png) |
+| ![Higher or Lower](./docs/capturas/higher-lower.png) | ![Estudiar](./docs/capturas/estudiar.png) | ![Celular](./docs/capturas/celu.png) |
 
-## 🛠️ Tecnologías
+## 🛠️ Tecnologías utilizadas
 
-- **Backend:** Python 3 y Flask (con plantillas Jinja2).
-- **Frontend:** HTML5, CSS3 y JavaScript puro, sin frameworks.
-- **Datos:** archivo `paises.json` (nombre, continente, código y población).
-- **Banderas:** SVG descargados de [flagcdn.com](https://flagcdn.com).
+El proyecto está desarrollado utilizando tecnologías web que permiten mantener una estructura sencilla, organizada y fácil de ampliar.
 
-## 🚀 Instalación
+| Tecnología | Utilización |
+|:---|:---|
+| 🐍 **Python 3** | Lenguaje principal del backend. |
+| ⚗️ **Flask** | Servidor web y gestión de rutas. |
+| 🧩 **Jinja2** | Motor de plantillas HTML. |
+| 🌐 **HTML5** | Estructura de las páginas. |
+| 🎨 **CSS3** | Diseño, animaciones y adaptación responsive. |
+| ⚡ **JavaScript** | Interactividad y controles del juego. |
+| 📦 **JSON** | Almacenamiento de países, continentes y población. |
+| 🏳️ **FlagCDN** | Fuente de las banderas en formato SVG. |
 
-### Requisitos previos
+## 🚀 Instalación y ejecución
 
-- Python 3.8 o superior
-- Git
+> 💻 **¿Querés probar Guess the Flag en tu computadora?**
+>
+> Seguí estos pasos para descargar, instalar y ejecutar el proyecto localmente.
+
+### 📋 Requisitos previos
+
+Antes de comenzar, necesitás tener instalados:
+
+- Python 3.8 o superior.
+- Git.
+- Un navegador web actualizado.
 
 ### 1. Clonar el repositorio
 
+Primero, abrí una terminal y ejecutá:
+
 ```bash
-git clone URL_DEL_REPOSITORIO
-cd guess-the-flag
+git clone proyecto_final
 ```
 
+Ingresá a la carpeta del proyecto:
+
+```bash
+cd proyecto_final
+```
+
+
+
 ### 2. Instalar Flask
+
+Instalá Flask, que es el framework utilizado para ejecutar el servidor web:
 
 ```bash
 pip install flask
@@ -92,29 +142,56 @@ pip install flask
 
 ### 3. Descargar las banderas
 
+Ejecutá el siguiente script para descargar las banderas de los países:
+
 ```bash
 python descargar_banderas.py
 ```
 
-Las guarda en `static/flags/`. Si alguna falla, volvé a ejecutarlo y reintenta solo esas.
+Las banderas se guardarán automáticamente en:
+
+```text
+static/flags/
+```
+
+Si alguna descarga falla, podés volver a ejecutar el script para intentar descargar las banderas pendientes.
 
 ### 4. Ejecutar el proyecto
+
+Una vez instaladas las dependencias y descargadas las banderas, iniciá el servidor: para eso deberas crear un entorno virtual es tu computadora
 
 ```bash
 python app.py
 ```
 
-Abrí el navegador en **http://localhost:5000**
+### 5. Abrir el juego
+
+Abrí tu navegador y visitá la siguiente dirección:
+
+```text
+http://localhost:5000
+```
+
+<div align="center">
+
+**🌍 ¡Todo listo para comenzar a jugar!**
+
+</div>
 
 ## 📂 Estructura del proyecto
 
+El proyecto está organizado en diferentes carpetas para separar la lógica del servidor, las páginas HTML, los estilos, los scripts y los recursos gráficos.
+
 ```text
 guess-the-flag/
-├── app.py                    # Servidor Flask: rutas y lógica del juego
-├── descargar_banderas.py     # Descarga las banderas SVG
+│
+├── app.py                      # Servidor Flask: rutas y lógica del juego
+├── descargar_banderas.py       # Script para descargar las banderas SVG
+│
 ├── data/
-│   └── paises.json           # Países, continentes y población
-├── templates/                # Páginas HTML (Jinja2)
+│   └── paises.json             # Países, continentes y población
+│
+├── templates/                  # Páginas HTML con Jinja2
 │   ├── index.html
 │   ├── modo.html
 │   ├── dificultad.html
@@ -125,145 +202,246 @@ guess-the-flag/
 │   ├── higher_lower.html
 │   ├── estudiar.html
 │   └── reglas.html
+│
 ├── static/
-│   ├── css/                  # Un archivo de estilos por pantalla
-│   ├── js/                   # Lógica de cada pantalla + input.js (teclado)
-│   └── flags/                # Banderas SVG
+│   ├── css/                    # Estilos de cada pantalla
+│   ├── js/                     # Lógica e interactividad
+│   └── flags/                  # Banderas SVG
+│
 ├── docs/
-│   └── capturas/             # Imágenes para este README
+│   └── capturas/               # Imágenes utilizadas en el README
+│
 └── README.md
 ```
 
-## 🧗 Cómo fue evolucionando el proyecto
+### 📖 Descripción de las carpetas
 
-> Este proyecto no nació completo: fue creciendo de a una idea por vez.
-> Acá está el recorrido, de principio a fin.
+| Archivo / Carpeta | Descripción |
+|:---|:---|
+| `app.py` | Servidor Flask, rutas y lógica del juego. |
+| `descargar_banderas.py` | Script encargado de descargar las banderas SVG. |
+| `data/` | Almacena los datos de los países. |
+| `paises.json` | Contiene nombres, continentes, códigos y población. |
+| `templates/` | Contiene las páginas HTML renderizadas mediante Jinja2. |
+| `static/css/` | Hojas de estilo de cada pantalla. |
+| `static/js/` | Scripts de interactividad y controles del juego. |
+| `static/flags/` | Banderas de los países en formato SVG. |
+| `docs/capturas/` | Imágenes utilizadas para mostrar el proyecto. |
+
+## 🧭 Evolución del proyecto
+
+> 📌 **El desarrollo paso a paso**
+>
+> Guess the Flag fue creciendo progresivamente. Cada etapa incorporó nuevas funcionalidades, mejoras visuales y cambios en la experiencia de juego.
+>
+> Este es el recorrido desde la primera planificación hasta la versión actual.
 
 <details>
-<summary><b>🧱 dia 1:plantemos el proyecto y su organizacion  </b> 
+<summary><b>🧱 Día 1 — Planificación y organización</b></summary>
 
-&nbsp;
+<br>
 
-- Armé el menú de inicio con tres opciones: **Estudiar**, **Jugar** y **Reglas**.
-- Definí la lista de 50 países en `paises.json` (10 por continente).
-- Creé `descargar_banderas.py` para bajar las banderas automáticamente.
-- Fijé el estilo visual: pergamino sobre madera, como un mapa antiguo.
+### 🎮 Diseño del sistema de controles
 
-👉 *Captura: `docs/capturas/inicio.png`*
+Planteamos la idea inicial y definimos las funcionalidades principales del juego.
+
+- Diseñamos un joystick de cuatro botones, uno en cada esquina.
+- Cada botón representa una respuesta dentro del juego.
+- En los menús, los botones cambian de función para permitir navegar, seleccionar opciones, aceptar y volver.
+- Organizamos la pantalla para que los controles fueran intuitivos.
+
+### 🛠️ Primeros archivos
+
+Creamos los primeros archivos necesarios para poner en funcionamiento el proyecto:
+
+- `hardware.py`: lee los botones de la Raspberry Pi. Si no detecta el hardware, permite utilizar el teclado de la computadora.
+- `app.py`: servidor Flask.
+- `static/input.js`: recibe las entradas del teclado en el navegador. Utilizamos las teclas Q, W, A y S para realizar las pruebas.
+- `templates/base.html` e `index.html`: estructura base y menú principal.
+- `static/style.css`: primeros estilos visuales.
+
+### 🌍 Datos y banderas
+
+- Aprendimos a trabajar con archivos JSON.
+- Creamos `paises.json` con 50 países, 10 por continente.
+- Seleccionamos los países que formarían parte del juego.
+- Desarrollamos `descargar_banderas.py` para descargar las 50 banderas en formato SVG dentro de `static/flags/`.
 
 </details>
 
 <details>
-<summary><b>🙂 Etapa 2: Modo fácil</b> 👉 (fecha)</summary>
+<summary><b>🙂 Día 2 — Desarrollo de las primeras modalidades</b></summary>
 
-&nbsp;
+<br>
 
-- Pantalla de elegir continente y pantalla de juego con 4 opciones.
-- El servidor mezcla las banderas y las saca de una cola, así **no se repiten** en una partida.
-- Respuestas con teclas Q, W, A, S, además del mouse.
+### 🎮 Modo de juego
 
-</details>
+Comenzamos a desarrollar la modalidad principal de adivinar banderas.
 
-<details>
-<summary><b>🔥 Etapa 3: Modo difícil</b> 👉 (fecha)</summary>
+- Creamos una pantalla para seleccionar el continente (`continentes.html`).
+- Desarrollamos una pantalla de juego reutilizable (`jugar.html`).
+- Incorporamos la bandera, cuatro respuestas posibles, un contador de puntos y un reloj de 60 segundos.
+- Agregamos las rutas correspondientes en `app.py`.
 
-&nbsp;
+### 📖 Modo de estudio
 
-- Nueva pantalla de **dificultad** antes de elegir continente.
-- En difícil no hay opciones: hay que **escribir** el nombre del país.
-- Se comparan las respuestas sin tildes ni mayúsculas, para no castigar errores de formato.
-- Agregué un reloj (40 s por continente, 100 s en Global).
-- Diseño propio, oscuro y rojizo, con efecto de luz de vela.
+También comenzamos a desarrollar las pantallas destinadas al aprendizaje de las banderas y los países.
 
-</details>
+### 🛠️ Organización
 
-<details>
-<summary><b>🧭 Etapa 4: Navegación con teclado en toda la app</b> 👉 (fecha)</summary>
-
-&nbsp;
-
-- **Problema:** en la pantalla de continentes solo se podía ir "uno al lado del otro".
-- **Solución:** moví la selección en 2D (▲ ▼ por columna, ◀ ▶ por fila). Lee la cantidad de columnas del CSS, así no hay que tocar el JS si la grilla cambia.
+Creamos nuevos archivos HTML y CSS para separar las diferentes pantallas y mantener el proyecto organizado.
 
 </details>
 
 <details>
-<summary><b>📈 Etapa 5: Nuevo modo, Higher or Lower</b> 👉 (fecha)</summary>
+<summary><b>🔥 Día 3 — Nuevas dificultades y cambios en los controles</b></summary>
 
-&nbsp;
+<br>
 
-- Agregué la pantalla **Modo de juego** entre "Jugar" y la dificultad.
-- Sumé la **población** de cada país a los datos.
-- Mecánica: dos banderas, y hay que decidir si el de la derecha tiene más o menos habitantes. Cada acierto suma un punto.
-- **Bugs que resolví en el camino:**
-  - La ruta `/modo` daba 404 porque el servidor seguía corriendo con el código viejo.
-  - Los datos no llegaban al JavaScript: se solucionó pasándolos como JSON desde Flask con `|tojson`.
-  - Las banderas no cargaban: ahora usa la imagen local y, si falta, la de flagcdn.
-  - Las teclas no respondían: se escuchan directamente desde el navegador, además de `input.js`.
-  - Las tarjetas se superponían: se rehízo el layout para que nada se achique ni se pise.
+### 🎯 Adaptación de los controles
+
+Durante el desarrollo surgieron dificultades para utilizar la Raspberry Pi, por lo que tuvimos que adaptar el proyecto para manejarlo mediante el teclado de la computadora.
+
+### 🔥 Incorporación del modo difícil
+
+- Agregamos una pantalla de selección de dificultad.
+- En el modo fácil se mantienen las cuatro respuestas posibles.
+- En el modo difícil hay que escribir el nombre del país correspondiente a la bandera.
+- Las respuestas se comparan sin distinguir mayúsculas, minúsculas ni tildes, para evitar errores de formato.
+
+### ⏱️ Incorporación del reloj
+
+Establecimos diferentes tiempos según el tipo de partida:
+
+- 40 segundos por continente.
+- 100 segundos en el modo Global.
+
+### 🎨 Cambios visuales
+
+Al seleccionar la dificultad, también cambia el diseño de la interfaz:
+
+- Modo fácil: apariencia clara.
+- Modo difícil: apariencia oscura.
 
 </details>
 
 <details>
-<summary><b>📖 Etapa 6: Estudiar con población</b> 👉 (fecha)</summary>
+<summary><b>🧭 Día 4 — Diseño de la interfaz y nuevas modalidades</b></summary>
 
-&nbsp;
+<br>
 
-- Al **tocar una tarjeta** aparecen los habitantes, sin que desaparezca la bandera.
-- Nueva opción **"Ordenar por habitantes"**: muestra los 50 países de más a menos poblado, con su puesto.
-- Esa opción también se elige con ◀ ▶ y Enter, para que todo se maneje con teclado.
+### 🎨 Diseño visual
+
+- Desarrollamos la mayoría de las hojas de estilo de las diferentes pantallas.
+- Unificamos la estética inspirada en mapas antiguos.
+- Mejoramos la presentación de los menús, las tarjetas y las dificultades.
+
+### 📈 Nuevo modo: Higher or Lower
+
+Incorporamos una nueva modalidad basada en la comparación de población entre países.
+
+- Se muestran dos banderas.
+- El jugador debe decidir si el país de la derecha tiene más o menos habitantes que el de la izquierda.
+- Cada respuesta correcta suma un punto.
+
+### 🌍 Nuevos datos
+
+Incorporamos la población de cada país al archivo de datos para poder utilizarla en esta nueva modalidad.
 
 </details>
 
 <details>
-<summary><b>📱 Etapa 7: Adaptación a celulares</b> 👉 (fecha)</summary>
+<summary><b>🏆 Etapa 5 — Optimización y mejoras finales</b></summary>
 
-&nbsp;
+<br>
 
-- **Problema:** en el celular la bandera se veía descentrada y caída, y los botones amontonados.
-- **Causa:** al ocultar el footer, el contenido se iba al fondo de la pantalla.
-- **Solución:**
-  - El contenido se apila desde arriba y el pergamino se puede scrollear.
-  - Las respuestas pasan a una columna.
-  - Se separó el botón "Volver" del título.
-  - Se ocultan las letras de teclado en pantallas táctiles.
-- Todo dentro de `@media`, así la versión de PC no cambió.
+### 📱 Adaptación a dispositivos
 
-👉 *Captura: `docs/capturas/celu.png`*
+- Terminamos de ajustar los estilos para diferentes tamaños de pantalla.
+- Mejoramos la visualización en celulares y tablets.
+- Corregimos problemas de distribución y superposición de elementos.
+
+### 📖 Mejoras en el modo de estudio
+
+- Incorporamos información de población.
+- Mejoramos la interacción con las tarjetas de países.
+- Modificamos su funcionamiento para facilitar el aprendizaje.
+
+### 🥇 Sistema de ranking
+
+Agregamos un sistema para guardar los tres primeros puestos del modo Higher or Lower.
+
+### 📜 Actualización de las reglas
+
+Incorporamos las instrucciones correspondientes a las nuevas modalidades de juego.
 
 </details>
 
-## 🗺️ Roadmap
+<details>
+<summary><b>📖 Etapa 6 — Estudio de países y población</b></summary>
 
-- [x] Menú principal, modo fácil y modo difícil
-- [x] Higher or Lower
-- [x] Modo Estudiar con población y ranking
-- [x] Diseño responsive para celulares
-- [ ] Más países por continente
-- [ ] Guardar el récord de forma permanente
-- [ ] Modo multijugador
-- [ ] Traducción a otros idiomas
+<br>
+
+### 🏳️ Información de cada país
+
+- Al tocar una tarjeta aparece la cantidad de habitantes, sin que desaparezca la bandera.
+- Mejoramos la presentación de los datos para facilitar su consulta.
+
+### 📊 Ordenamiento por población
+
+- Incorporamos la opción de ordenar los 50 países de mayor a menor población.
+- Cada país muestra su posición en el ranking.
+- La opción también puede seleccionarse mediante las flechas del teclado y Enter.
+
+</details>
+
+## 🗺️ Roadmap — Próximas mejoras
+
+Estas son algunas de las funcionalidades que ya se completaron y otras que nos gustaría incorporar en futuras versiones.
+
+| Estado | Funcionalidad |
+|:---:|:---|
+| ✅ | Menú principal, modo fácil y modo difícil. |
+| ✅ | Modo Higher or Lower. |
+| ✅ | Modo Estudiar con población y ranking. |
+| ✅ | Diseño responsive para celulares y tablets. |
+| 🔲 | Incorporar más países por continente. |
+| 🔲 | Guardar los récords de forma permanente. |
+| 🔲 | Incorporar un modo multijugador. |
+| 🔲 | Traducir el juego a otros idiomas. |
 
 ## 🤝 Contribuciones
 
-Las contribuciones son bienvenidas. Si encontrás un error o tenés una idea,
-abrí un **Issue** o mandá un **Pull Request**.
+Las contribuciones son bienvenidas.
+
+Si encontrás algún error, tenés una sugerencia o querés proponer una nueva funcionalidad, podés colaborar mediante:
+
+- **Issues:** para informar errores o proponer mejoras.
+- **Pull Requests:** para enviar cambios y nuevas funcionalidades.
+
+¡Toda contribución ayuda a que el proyecto siga creciendo!
 
 ## 👨‍💻 Autor
 
 Desarrollado por **TU NOMBRE**.
 
-- GitHub: [@tuusuario](https://github.com/tuusuario)
-- LinkedIn: [Tu perfil](https://linkedin.com/in/tuperfil)
+- GitHub: [@TU_USUARIO](https://github.com/TU_USUARIO)
+- LinkedIn: [Mi perfil](https://www.linkedin.com/in/TU_PERFIL/)
 
 ## 📄 Licencia
 
-Este proyecto está bajo la licencia MIT.
+Este proyecto está distribuido bajo la licencia MIT.
+
+Podés consultar las condiciones de uso en el archivo [LICENSE](./LICENSE).
 
 ---
 
 <div align="center">
 
-**Hecho con ❤️ y muchas banderas** 🚩
+### 🌍 GUESS THE FLAG 🚩
+
+**Hecho con ❤️, código y muchas banderas.**
+
+*Gracias por visitar nuestro proyecto.*
 
 </div>
