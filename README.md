@@ -140,7 +140,7 @@ guess-the-flag/
 > Acá está el recorrido, de principio a fin.
 
 <details>
-<summary><b>🧱 Etapa 1: La base y el menú principal</b> 👉 (fecha)</summary>
+<summary><b>🧱 dia 1:plantemos el proyecto y su organizacion  </b> 
 
 &nbsp;
 
