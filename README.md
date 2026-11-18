@@ -466,7 +466,7 @@ Este proyecto está distribuido bajo la licencia MIT.
 
 ### 🌍 GUESS THE FLAG 🚩
 
-**Hecho con ❤️,y mucho esfuerzo  **
+**Hecho con mucho ❤️ y esfuerzo   **
 
 *Gracias por visitar nuestro proyecto.*
 
