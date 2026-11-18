@@ -132,13 +132,42 @@ cd proyecto_final
 
 
 
-### 2. Instalar Flask
+### 2. crear un entorno virtual e instalar flask
 
-Instalá Flask, que es el framework utilizado para ejecutar el servidor web:
+## Crear un entorno virtual
+
+1. Abrir la terminal dentro de la carpeta del proyecto.
+
+2. Crear el entorno virtual:
+
+```bash
+python -m venv venv
+```
+
+3. Activarlo:
+
+**Windows:**
+```bash
+venv\Scripts\activate
+```
+
+**Linux:**
+```bash
+source venv/bin/activate
+```
+
+4. Instalar las librerías necesarias:
 
 ```bash
 pip install flask
 ```
+
+5. Para salir del entorno virtual:
+
+```bash
+deactivate
+```
+
 
 ### 3. Descargar las banderas
 
@@ -158,7 +187,7 @@ Si alguna descarga falla, podés volver a ejecutar el script para intentar desca
 
 ### 4. Ejecutar el proyecto
 
-Una vez instaladas las dependencias y descargadas las banderas, iniciá el servidor: para eso deberas crear un entorno virtual es tu computadora
+Una vez instaladas las dependencias y descargadas las banderas, iniciá el servidor: 
 
 ```bash
 python app.py
