@@ -426,7 +426,7 @@ Incorporamos las instrucciones correspondientes a las nuevas modalidades de jueg
 
 ## 🗺️ Roadmap — Próximas mejoras
 
-Estas son algunas de las funcionalidades que ya se completaron y otras que nos gustaría incorporar en futuras versiones.
+Estas son algunas de las funcionalidades que ya se completaron.
 
 | Estado | Funcionalidad |
 |:---:|:---|
@@ -449,10 +449,12 @@ Si encontrás algún error, tenés una sugerencia o querés proponer una nueva f
 
 ## 👨‍💻 Autor
 
-Desarrollado por **TU NOMBRE**.
+Desarrollado por 
 
 - GitHub: [@OliviaRabas](https://github.com/OliviaRabas)
-- LinkedIn: [Mi perfil](https://www.linkedin.com/in/TU_PERFIL/)
+          [@PilarRopolo](https://github.com/pilarropolo)
+          [@FelipesSalvatierra]](https://github.com/felipesalvatierra4408)
+          [@BautistaSandoval](https://github.com/OvalodeArena)
 
 ## 📄 Licencia
 
