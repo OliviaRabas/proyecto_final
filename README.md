@@ -453,14 +453,12 @@ Desarrollado por
 
 - GitHub: [@OliviaRabas](https://github.com/OliviaRabas)
           [@PilarRopolo](https://github.com/pilarropolo)
-          [@FelipesSalvatierra]](https://github.com/felipesalvatierra4408)
+          [@FelipesSalvatierra](https://github.com/felipesalvatierra4408)
           [@BautistaSandoval](https://github.com/OvalodeArena)
 
 ## 📄 Licencia
 
 Este proyecto está distribuido bajo la licencia MIT.
-
-Podés consultar las condiciones de uso en el archivo [LICENSE](./LICENSE).
 
 ---
 
@@ -468,7 +466,7 @@ Podés consultar las condiciones de uso en el archivo [LICENSE](./LICENSE).
 
 ### 🌍 GUESS THE FLAG 🚩
 
-**Hecho con ❤️, código y muchas banderas.**
+**Hecho con ❤️,y mucho esfuerzo  **
 
 *Gracias por visitar nuestro proyecto.*
 
