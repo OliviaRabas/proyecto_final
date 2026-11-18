@@ -434,10 +434,7 @@ Estas son algunas de las funcionalidades que ya se completaron y otras que nos g
 | ✅ | Modo Higher or Lower. |
 | ✅ | Modo Estudiar con población y ranking. |
 | ✅ | Diseño responsive para celulares y tablets. |
-| 🔲 | Incorporar más países por continente. |
-| 🔲 | Guardar los récords de forma permanente. |
-| 🔲 | Incorporar un modo multijugador. |
-| 🔲 | Traducir el juego a otros idiomas. |
+
 
 ## 🤝 Contribuciones
 
@@ -454,7 +451,7 @@ Si encontrás algún error, tenés una sugerencia o querés proponer una nueva f
 
 Desarrollado por **TU NOMBRE**.
 
-- GitHub: [@TU_USUARIO](https://github.com/TU_USUARIO)
+- GitHub: [@OliviaRabas](https://github.com/OliviaRabas)
 - LinkedIn: [Mi perfil](https://www.linkedin.com/in/TU_PERFIL/)
 
 ## 📄 Licencia
