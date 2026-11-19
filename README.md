@@ -71,22 +71,6 @@ El juego permite navegar por los menús y responder preguntas utilizando el tecl
 | Esc | Volver a la pantalla anterior. |
 | Q W A S | Elegir respuestas en el modo fácil (solo PC). |
 
-## 📸 Capturas de pantalla
-
-Un recorrido visual por las diferentes pantallas y modalidades de Guess the Flag.
-
-### 🏠 Menú y dificultades
-
-| Menú principal | Modo fácil | Modo difícil |
-|:---:|:---:|:---:|
-| ![Menú](./docs/capturas/inicio.png) | ![Fácil](./docs/capturas/facil.png) | ![Difícil](./docs/capturas/dificil.png) |
-
-### 🌎 Modos de juego
-
-| Higher or Lower | Estudiar | Versión móvil |
-|:---:|:---:|:---:|
-| ![Higher or Lower](./docs/capturas/higher-lower.png) | ![Estudiar](./docs/capturas/estudiar.png) | ![Celular](./docs/capturas/celu.png) |
-
 ## 🛠️ Tecnologías utilizadas
 
 El proyecto está desarrollado utilizando tecnologías web que permiten mantener una estructura sencilla, organizada y fácil de ampliar.
@@ -118,7 +102,7 @@ Antes de comenzar, necesitás tener instalados:
 
 ### 1. Clonar el repositorio
 
-Primero, abrí una terminal y ejecutá:
+Primero, abrí una terminal y ejecutá: 
 
 ```bash
 git clone proyecto_final
