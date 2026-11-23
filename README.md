@@ -261,7 +261,7 @@ Planteamos la idea inicial y definimos las funcionalidades principales del juego
 - Diseñamos un joystick de cuatro botones, uno en cada esquina.
 - Cada botón representa una respuesta dentro del juego.
 - En los menús, los botones cambian de función para permitir navegar, seleccionar opciones, aceptar y volver.
-- Organizamos la pantalla para que los controles fueran intuitivos.
+
 
 ### 🛠️ Primeros archivos
 
